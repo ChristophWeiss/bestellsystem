@@ -3,12 +3,33 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@babel/runtime": "^7.8.7",
+    "@material-ui/core": "^4.9.5",
+    "@material-ui/icons": "^4.9.1",
+    "@material-ui/lab": "^4.0.0-alpha.45",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
+    "bootstrap": "^4.4.1",
+    "jquery": "^3.4.1",
+    "node-sass": "^4.13.1",
+    "popper.js": "^1.16.1",
     "react": "^16.13.0",
+    "react-art": "^16.13.0",
+    "react-bootstrap": "^1.0.0-beta.17",
     "react-dom": "^16.13.0",
-    "react-scripts": "3.4.0"
+    "react-keypad-component": "^1.0.1",
+    "react-native": "^0.61.5",
+    "react-native-web": "^0.12.2",
+    "react-numpad": "^5.0.4",
+    "react-numpad-material": "^1.0.22",
+    "react-random-numpad": "^1.0.0",
+    "react-router-dom": "^5.1.2",
+    "react-router-native": "^5.1.2",
+    "react-screen-keyboard": "^1.4.1",
+    "react-scripts": "^3.4.0",
+    "react-simple-keyboard": "^2.2.33",
+    "react-touch-screen-keyboard": "^1.0.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -30,5 +51,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "resolutions": {
+    "material-ui/@babel/runtime": "7.0.0-beta.42"
   }
 }
