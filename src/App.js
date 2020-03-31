@@ -4,7 +4,7 @@ import {BrowserRouter, Redirect, Route} from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "./App.css";
 
-import Home from "./Components/home";
+import Bestellen from "./Components/bestellen";
 
 const url = "http://localhost/comparinator/Backend/";
 localStorage.setItem('url', url);
@@ -41,13 +41,13 @@ class App extends Component {
                     </div>
                 }/>
                 <Route exact path={'/'} component={() =>
-                    <Home/>
+                    <Bestellen/>
                 }/>
                 <Route exact path={'/home/'} component={() =>
-                    <Home/>
+                    <Bestellen/>
                 }/>
                 <Route exact path={'/loggedin/'} component={() =>
-                    <Home/>
+                    <Bestellen/>
                 }/>
 
             </BrowserRouter>

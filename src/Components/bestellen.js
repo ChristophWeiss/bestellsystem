@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import Keyboard from 'react-simple-keyboard';
 import 'react-simple-keyboard/build/css/index.css';
 
-class home extends Component {
+class bestellen extends Component {
     state={
-        tisch_nr:""
+        tisch_nr: ""
     }
 
     addtoValue = (e) =>{
@@ -40,31 +40,38 @@ class home extends Component {
         }
 
     }
-}
+};
     hasNumber = (myString) => {
     return /\d/.test(myString);
-}
-
-
-
-
-    helptisch = () =>{
-        console.log(this.state.tisch_nr)
-        console.log("los",);
+};
+     empty = (e) => {
+        switch (e) {
+            case "":
+            case null:
+            case false:
+            case typeof(e) == "undefined":
+                return true;
+            default:
+                return false;
+        }
     }
+
     addValuefromInput = (e) =>{
         let value = parseInt(e.target.value);
         this.setState({
             tisch_nr:value
         })
-    }
+    };
     handleSubmit = event => {
         event.preventDefault();
-        console.log(this.state.tisch_nr)
-        alert(this.state.tisch_nr)
-        this.setState({
-            tisch_nr : ""
-        })
+        if(!this.empty(this.state.tisch_nr)){
+            console.log(this.state.tisch_nr)
+            alert(this.state.tisch_nr)
+            this.setState({
+                tisch_nr : ""
+            })
+        }
+
     }
 
 
@@ -79,14 +86,14 @@ class home extends Component {
         return (
             <div className="container h-100">
                 <div className="row align-items-center h-100">
-                    <div className="col-6 mx-auto">
+                    <div className="d-flex align-content-lg-center">
 
                         <form onSubmit={this.handleSubmit}>
                             <table cellPadding="2" cellSpacing="2" border="0">
                                 <tbody>
                                 <tr>
                                     <td colSpan="3" align="center">
-                                        <input type="number" value={this.state.tisch_nr} pattern="[0-9]" min={1} id="tisch" name="tisch_nr" style={{margin:"5px"}} size="20" onChange={this.addValuefromInput}/>
+                                        <input type="number" value={this.state.tisch_nr} pattern="[0-9]" min={0} id="tisch" name="tisch_nr" style={{margin:"5px"}} size="20" onChange={this.addValuefromInput}/>
                                     </td>
                                 </tr>
                                 <tr>
@@ -117,11 +124,11 @@ class home extends Component {
                                 <tr>
                                     <td>
                                         <input type="Submit" id="0" defaultValue="  ✓  " style={styleofButtons}
-                                               onClick={this.helptisch} data-toggle='modal' data-target='#myModal'/>
+                                               data-toggle='modal' data-target='#myModal'/>
                                     </td>
                                     <td><input type="Button" id="0" defaultValue="  0  " style={styleofButtons}
                                                onClick={e => this.addtoValue(e.target.id)}/></td>
-                                    <td><input type="Button" id="DEL" defaultValue=" ⌫"
+                                    <td><input type="Button" id="DEL" defaultValue=" ⌫ "
                                                style={styleofButtons} onClick={e => this.addtoValue(e.target.id)}/></td>
                                 </tr>
                                 </tbody>
@@ -133,4 +140,4 @@ class home extends Component {
         );
     }
 }
-export default home;
+export default bestellen;
