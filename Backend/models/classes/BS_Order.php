@@ -1,13 +1,16 @@
 <?php
 
 /**
- * Class BS_Role
+ * Class BS_Order
  * @author Christoph Weiss
  */
-class BS_Role extends DatabaseTable implements JsonSerializable
+class BS_Order extends DatabaseTable implements JsonSerializable
 {
     private $id;
-    private $description;
+    private $date;
+    private $state_id;
+    private $users_id;
+    private $table_nr;
 
     /**
      * @return mixed
@@ -28,22 +31,72 @@ class BS_Role extends DatabaseTable implements JsonSerializable
     /**
      * @return mixed
      */
-    public function getDescription()
+    public function getDate()
     {
-        return $this->description;
+        return $this->date;
     }
 
     /**
-     * @param mixed $description
+     * @param mixed $date
      */
-    public function setDescription($description)
+    public function setDate($date)
     {
-        $this->description = $description;
+        $this->date = $date;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getStateId()
+    {
+        return $this->state_id;
+    }
+
+    /**
+     * @param mixed $state_id
+     */
+    public function setStateId($state_id)
+    {
+        $this->state_id = $state_id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUsersid()
+    {
+        return $this->users_id;
+    }
+
+    /**
+     * @param mixed $users_id
+     */
+    public function setUsersid($users_id)
+    {
+        $this->users_id = $users_id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTableNr()
+    {
+        return $this->table_nr;
+    }
+
+    /**
+     * @param mixed $table_nr
+     */
+    public function setTableNr($table_nr)
+    {
+        $this->table_nr = $table_nr;
     }
 
 
+
+
     /**
-     * BS_Role constructor.
+     * BS_Order constructor.
      * @param array $data
      */
 
@@ -89,8 +142,8 @@ class BS_Role extends DatabaseTable implements JsonSerializable
      */
     protected function _insert()
     {
-        $sql = 'INSERT INTO BS_role (description)'
-            . 'VALUES (:description)';
+        $sql = 'INSERT INTO BS_order (date,state_id,users_id,table_nr)'
+            . 'VALUES (:date,:state_id,:users_id,:table_nr)';
         $query = Database::getDB()->prepare($sql);
         $query->execute($this->toArray(false));
 
@@ -103,7 +156,7 @@ class BS_Role extends DatabaseTable implements JsonSerializable
      */
     protected function _update()
     {
-        $sql = "UPDATE BS_role SET id=:id, description=:description
+        $sql = "UPDATE BS_order SET id=:id, date=:date,state_id=:state_id,users_id=:users_id,table_nr=:table_nr
             WHERE id=:id";
 
         $query = Database::getDB()->prepare($sql);

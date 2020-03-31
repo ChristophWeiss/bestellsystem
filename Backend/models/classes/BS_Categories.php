@@ -1,14 +1,13 @@
 <?php
 
 /**
- * Class BS_Role
+ * Class BS_Categories
  * @author Christoph Weiss
  */
-class BS_Role extends DatabaseTable implements JsonSerializable
+class BS_Categories extends DatabaseTable implements JsonSerializable
 {
     private $id;
     private $description;
-
     /**
      * @return mixed
      */
@@ -43,7 +42,7 @@ class BS_Role extends DatabaseTable implements JsonSerializable
 
 
     /**
-     * BS_Role constructor.
+     * BS_categories constructor.
      * @param array $data
      */
 
@@ -89,7 +88,7 @@ class BS_Role extends DatabaseTable implements JsonSerializable
      */
     protected function _insert()
     {
-        $sql = 'INSERT INTO BS_role (description)'
+        $sql = 'INSERT INTO BS_categories (description)'
             . 'VALUES (:description)';
         $query = Database::getDB()->prepare($sql);
         $query->execute($this->toArray(false));
@@ -103,7 +102,7 @@ class BS_Role extends DatabaseTable implements JsonSerializable
      */
     protected function _update()
     {
-        $sql = "UPDATE BS_role SET id=:id, description=:description
+        $sql = "UPDATE BS_categories SET id=:id, description=:description
             WHERE id=:id";
 
         $query = Database::getDB()->prepare($sql);

@@ -1,13 +1,15 @@
 <?php
 
 /**
- * Class Role
+ * Class BS_Cart
  * @author Christoph Weiss
  */
-class PF_Role extends DatabaseTable implements JsonSerializable
+class BS_Cart extends DatabaseTable implements JsonSerializable
 {
     private $id;
-    private $description;
+    private $products_id;
+    private $order_id;
+    private $ammount;
 
     /**
      * @return mixed
@@ -28,22 +30,55 @@ class PF_Role extends DatabaseTable implements JsonSerializable
     /**
      * @return mixed
      */
-    public function getDescription()
+    public function getProductsId()
     {
-        return $this->description;
+        return $this->products_id;
     }
 
     /**
-     * @param mixed $description
+     * @param mixed $products_id
      */
-    public function setDescription($description)
+    public function setProductsId($products_id)
     {
-        $this->description = $description;
+        $this->products_id = $products_id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getOrderId()
+    {
+        return $this->order_id;
+    }
+
+    /**
+     * @param mixed $order_id
+     */
+    public function setOrderId($order_id)
+    {
+        $this->order_id = $order_id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAmmount()
+    {
+        return $this->ammount;
+    }
+
+    /**
+     * @param mixed $ammount
+     */
+    public function setAmmount($ammount)
+    {
+        $this->ammount = $ammount;
     }
 
 
+
     /**
-     * Role constructor.
+     * Cart constructor.
      * @param array $data
      */
 
@@ -89,8 +124,8 @@ class PF_Role extends DatabaseTable implements JsonSerializable
      */
     protected function _insert()
     {
-        $sql = 'INSERT INTO BS_role (description)'
-            . 'VALUES (:description)';
+        $sql = 'INSERT INTO BS_cart (products_id,order_id,ammount)'
+            . 'VALUES (:products_id,:order_id,:ammount)';
         $query = Database::getDB()->prepare($sql);
         $query->execute($this->toArray(false));
 
@@ -103,7 +138,7 @@ class PF_Role extends DatabaseTable implements JsonSerializable
      */
     protected function _update()
     {
-        $sql = "UPDATE BS_role SET id=:id, description=:description
+        $sql = "UPDATE BS_cart SET id=:id, products_id=:products_id,order_id=:order_id,ammount=:ammount
             WHERE id=:id";
 
         $query = Database::getDB()->prepare($sql);

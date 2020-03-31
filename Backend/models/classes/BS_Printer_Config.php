@@ -1,13 +1,14 @@
 <?php
 
 /**
- * Class BS_Role
+ * Class BS_Printer_Config
  * @author Christoph Weiss
  */
-class BS_Role extends DatabaseTable implements JsonSerializable
+class BS_Printer_Config extends DatabaseTable implements JsonSerializable
 {
     private $id;
     private $description;
+    private $ip_address;
 
     /**
      * @return mixed
@@ -41,9 +42,26 @@ class BS_Role extends DatabaseTable implements JsonSerializable
         $this->description = $description;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getIpAddress()
+    {
+        return $this->ip_address;
+    }
 
     /**
-     * BS_Role constructor.
+     * @param mixed $ip_address
+     */
+    public function setIpAddress($ip_address)
+    {
+        $this->ip_address = $ip_address;
+    }
+
+
+
+    /**
+     * BS_printerConfig constructor.
      * @param array $data
      */
 
@@ -89,8 +107,8 @@ class BS_Role extends DatabaseTable implements JsonSerializable
      */
     protected function _insert()
     {
-        $sql = 'INSERT INTO BS_role (description)'
-            . 'VALUES (:description)';
+        $sql = 'INSERT INTO BS_printerConfig (description,ip_address)'
+            . 'VALUES (:description,:ip_address)';
         $query = Database::getDB()->prepare($sql);
         $query->execute($this->toArray(false));
 
@@ -103,7 +121,7 @@ class BS_Role extends DatabaseTable implements JsonSerializable
      */
     protected function _update()
     {
-        $sql = "UPDATE BS_role SET id=:id, description=:description
+        $sql = "UPDATE BS_printerConfig SET id=:id, description=:description,ip_address=:ip_address
             WHERE id=:id";
 
         $query = Database::getDB()->prepare($sql);

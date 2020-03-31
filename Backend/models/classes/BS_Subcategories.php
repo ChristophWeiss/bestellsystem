@@ -1,13 +1,14 @@
 <?php
 
 /**
- * Class BS_Role
+ * Class BS_Subcategories
  * @author Christoph Weiss
  */
-class BS_Role extends DatabaseTable implements JsonSerializable
+class BS_Subcategories extends DatabaseTable implements JsonSerializable
 {
     private $id;
     private $description;
+    private $categories_id;
 
     /**
      * @return mixed
@@ -41,9 +42,26 @@ class BS_Role extends DatabaseTable implements JsonSerializable
         $this->description = $description;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getCategoriesid()
+    {
+        return $this->categories_id;
+    }
 
     /**
-     * BS_Role constructor.
+     * @param mixed $categories_id
+     */
+    public function setCategoriesid($categories_id)
+    {
+        $this->categories_id = $categories_id;
+    }
+
+
+
+    /**
+     * BS_subcategories constructor.
      * @param array $data
      */
 
@@ -89,8 +107,8 @@ class BS_Role extends DatabaseTable implements JsonSerializable
      */
     protected function _insert()
     {
-        $sql = 'INSERT INTO BS_role (description)'
-            . 'VALUES (:description)';
+        $sql = 'INSERT INTO BS_subcategories (description,categories_id)'
+            . 'VALUES (:description,:categories_id)';
         $query = Database::getDB()->prepare($sql);
         $query->execute($this->toArray(false));
 
@@ -103,7 +121,7 @@ class BS_Role extends DatabaseTable implements JsonSerializable
      */
     protected function _update()
     {
-        $sql = "UPDATE BS_role SET id=:id, description=:description
+        $sql = "UPDATE BS_subcategories SET id=:id, description=:description,categories_id=:categories_id
             WHERE id=:id";
 
         $query = Database::getDB()->prepare($sql);
