@@ -4,7 +4,8 @@ import {BrowserRouter, Redirect, Route} from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "./App.css";
 
-import Bestellen from "./Components/bestellen";
+import Bestellen from "./Components/Order/order_tableNr";
+import Order from "./Components/Order/order";
 
 const url = "http://localhost/comparinator/Backend/";
 localStorage.setItem('url', url);
@@ -27,29 +28,23 @@ class App extends Component {
 
 
     render() {
-        let forceLogin = "";
-        if (this.state.token == null) {
-            forceLogin = <Redirect to='/home/'/>
-        }
 
 
+//http://localhost:3000/loggedin/order/14/
         return (
             <BrowserRouter>
-                <Route path={'/loggedin/'} component={() =>
-                    <div>
-                        {forceLogin}
-                    </div>
-                }/>
                 <Route exact path={'/'} component={() =>
                     <Bestellen/>
                 }/>
                 <Route exact path={'/home/'} component={() =>
                     <Bestellen/>
                 }/>
-                <Route exact path={'/loggedin/'} component={() =>
+                <Route exact path={'/loggedin/Order'} component={() =>
                     <Bestellen/>
                 }/>
-
+                <Route exact path={'/loggedin/Order/:table_nr/'} render={(props) =>
+                    <Order {...props}/>
+                }/>
             </BrowserRouter>
         )
     }

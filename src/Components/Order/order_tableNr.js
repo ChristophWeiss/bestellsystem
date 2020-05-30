@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
 import Keyboard from 'react-simple-keyboard';
+import {Redirect} from "react-router-dom";
 import 'react-simple-keyboard/build/css/index.css';
+import './order_tableNrStyle.css'
 
-class bestellen extends Component {
+class order_tableNr extends Component {
     state={
-        tisch_nr: ""
+        tisch_nr: "",
+        redirectToLink:false,
+        redirect:""
     }
 
     addtoValue = (e) =>{
@@ -67,9 +71,11 @@ class bestellen extends Component {
         if(!this.empty(this.state.tisch_nr)){
             console.log(this.state.tisch_nr)
             alert(this.state.tisch_nr)
+            this.openOrderView(this.state.tisch_nr);
             this.setState({
                 tisch_nr : ""
             })
+
         }
 
     }
@@ -81,15 +87,17 @@ class bestellen extends Component {
             fontSize: "25px",
             margin: "5px"
         }
+        if (this.state.redirectToLink !== false) {
+            console.log(<Redirect to={this.state.redirect}/>)
+            return <Redirect to={this.state.redirect}/>;
+        }
 
 
         return (
-            <div className="container h-100">
-                <div className="row align-items-center h-100">
-                    <div className="d-flex align-content-lg-center">
-
-                        <form onSubmit={this.handleSubmit}>
-                            <table cellPadding="2" cellSpacing="2" border="0">
+            <div className="container ">
+                    <div className="father full_width">
+                        <form onSubmit={this.handleSubmit} className={"child"}>
+                            <table cellPadding="2" cellSpacing="2" border="0" c>
                                 <tbody>
                                 <tr>
                                     <td colSpan="3" align="center">
@@ -135,9 +143,14 @@ class bestellen extends Component {
                             </table>
                         </form>
                     </div>
-                </div>
             </div>
         );
     }
+    openOrderView = (id) => {
+        this.setState({
+            redirect: "./Order/" + id,
+            redirectToLink: true
+        })
+    };
 }
-export default bestellen;
+export default order_tableNr;
