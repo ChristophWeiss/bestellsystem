@@ -70,7 +70,6 @@ class order_tableNr extends Component {
         event.preventDefault();
         if(!this.empty(this.state.tisch_nr)){
             console.log(this.state.tisch_nr)
-            alert(this.state.tisch_nr)
             this.openOrderView(this.state.tisch_nr);
             this.setState({
                 tisch_nr : ""
