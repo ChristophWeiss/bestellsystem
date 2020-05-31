@@ -9,6 +9,9 @@ import {Col, Row} from "react-bootstrap"
 import Logout from '@material-ui/icons/ExitToApp';
 import "./orderStyle.css"
 import FastfoodIcon from '@material-ui/icons/Fastfood';
+import Categories from "./Sub/categories"
+import SubCategories from "./Sub/sub_Categories"
+import Products from "./Sub/products"
 
 
 class Order extends Component {
@@ -16,20 +19,68 @@ class Order extends Component {
         token: localStorage.getItem('token'),
         waiter_name: "Lukas",
         categories: [
-            {name: "Essen"},
-            {name: "Trinken"},
-            {name: "Essen"},
-            {name: "Trinken"}
-        ]
+            {id: 1,description: "Essen"},
+            {id: 2,description: "Trinken"},
+            {id: 3,description: "Desert"},
+            {id: 4,description: "Alkohol"}
+        ],
+        subcategories:[
+            {id: 1,description: "Nudeln",categories_id:1},
+            {id: 2,description: "Burger",categories_id:1},
+            {id: 3,description: "SoftAlkohol",categories_id:4},
+            {id: 4,description: "Saft",categories_id:2}
+        ],
+        products:[
+            {id: 1, name: "Bier",sizes_id:"klein", categories_id: 3,price: 2.3}
+        ],
+        showCategories : true,
+        showSubCategories: false,
+        showProducts:false,
+        categoriesID:null,
+        categoriesIDOld:null
     }
 
     componentDidMount() {
-        console.log("dsadsdsd")
         console.log(this.props.match.params.table_nr);
         this.setState({
             tisch_nr: this.props.match.params.table_nr
         })
     }
+    showSubCategories = (id) =>{
+        console.log(id)
+        this.setState({
+            showCategories : false,
+            showSubCategories: true,
+            showProducts:false,
+            categoriesID:id
+        })
+    }
+    showProducts = (id) =>{
+        console.log(id)
+        this.setState({
+            showCategories : false,
+            showSubCategories: false,
+            showProducts:true,
+            categoriesIDOld:this.state.categoriesID,
+            categoriesID:id
+        })
+    }
+    backCategories = () =>{
+        this.setState({
+            showCategories : true,
+            showProducts:false,
+            showSubCategories: false
+        })
+    }
+    backSubCategories = () =>{
+        this.setState({
+            showCategories : false,
+            showSubCategories: true,
+            showProducts:false,
+            categoriesID:this.state.categoriesIDOld
+        })
+    }
+
 
 
     render() {
@@ -47,35 +98,31 @@ class Order extends Component {
                         <div className={"waiter_name"}> Kellner {this.state.waiter_name} </div>
                     </Col>
                 </Row>
-
                 <Divider className={"mb-5"}/>
-                <p>HEHWEH(Uwd</p>
                 <List component="nav" aria-label="main mailbox folders" className={"border"}>
-                    {this.getCategories()}
+                    <Categories
+                        showCategories={this.state.showCategories}
+                        categories={this.state.categories}
+                        showSubCategories={this.showSubCategories}
+                        backCategorie={this.backCategories}
+                    />
+                    <SubCategories
+                        showSubCategories={this.state.showSubCategories}
+                        sub_categories={this.state.subcategories}
+                        categories={this.state.categoriesID}
+                        showProducts={this.showProducts}
+                        backCategories={this.backCategories}
+                    />
+                    <Products
+                        showProducts={this.state.showProducts}
+                        products={this.state.products}
+                        categories={this.state.categoriesID}
+                        backCategories={this.backSubCategories}
+                    />
                 </List>
 
             </div>
         )
-    }
-
-    getCategories = () => {
-
-        let data = [];
-
-        this.state.categories.map( function (v,i) {
-                data.push(
-                    <ListItem key={i} button>
-                        <ListItemIcon>
-                            <FastfoodIcon />
-                        </ListItemIcon>
-                        <ListItemText primary={v.name} />
-                    </ListItem>
-                )
-            }
-
-        )
-        return data;
-
     }
 }
 
