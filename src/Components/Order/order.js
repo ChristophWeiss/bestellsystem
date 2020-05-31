@@ -12,6 +12,8 @@ import FastfoodIcon from '@material-ui/icons/Fastfood';
 import Categories from "./Sub/categories"
 import SubCategories from "./Sub/sub_Categories"
 import Products from "./Sub/products"
+import CloseIcon from '@material-ui/icons/Close';
+import EuroIcon from '@material-ui/icons/Euro';
 
 
 class Order extends Component {
@@ -120,6 +122,15 @@ class Order extends Component {
                         backCategories={this.backSubCategories}
                     />
                 </List>
+
+                <Row className={"mt-1 text-center fixed-bottom"}>
+                    <Col className={"m-2 mt-4 col-4 mr-2 text-center d-flex justify-content-center"}> Abbrechen<CloseIcon/>
+                    </Col>
+                    <Col className={"mt-3  text-center d-flex justify-content-center"}></Col>
+                    <Col className={"m-2 mt-3 mr-2 col-4 text-center d-flex justify-content-center"}>
+                        <div className={"waiter_name"}> <EuroIcon /> 300 </div>
+                    </Col>
+                </Row>
 
             </div>
         )
