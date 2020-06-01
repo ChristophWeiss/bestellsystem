@@ -4,6 +4,9 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import FastfoodIcon from "@material-ui/icons/Fastfood";
 import ListItemText from "@material-ui/core/ListItemText";
 import BackspaceIcon from "@material-ui/icons/Backspace";
+import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
+import IconButton from "@material-ui/core/IconButton";
+import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
 
 class products extends Component {
     render() {
@@ -37,11 +40,14 @@ class products extends Component {
                 if (this.props.categories === v.categories_id) {
                     counter++;
                     data.push(
-                        <ListItem key={i} button>
+                        <ListItem key={i} button onClick={() => this.props.addProductOrder(v.id,v.name,1, v.price)}>
                             <ListItemIcon>
                                 <FastfoodIcon/>
                             </ListItemIcon>
                             <ListItemText primary={v.name}/>
+                            <ListItemSecondaryAction>
+                                {v.price} €
+                            </ListItemSecondaryAction>
                         </ListItem>
                     )
                 }

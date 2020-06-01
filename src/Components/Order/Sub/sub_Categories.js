@@ -45,7 +45,7 @@ class SubCategories extends Component {
                                 <ListItemText primary={v.description} />
                                 <ListItemSecondaryAction>
                                     <IconButton edge="end" aria-label="forward">
-                                        <ArrowForwardIosIcon />
+                                        <ArrowForwardIosIcon onClick={ () => this.props.showProducts(v.id)} />
                                     </IconButton>
                                 </ListItemSecondaryAction>
                             </ListItem>

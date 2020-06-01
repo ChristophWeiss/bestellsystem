@@ -33,7 +33,7 @@ class Categories extends Component {
                         <ListItemText primary={v.description} />
                         <ListItemSecondaryAction>
                             <IconButton edge="end" aria-label="forward">
-                                <ArrowForwardIosIcon />
+                                <ArrowForwardIosIcon onClick={ () => this.props.showSubCategories(v.id)} />
                             </IconButton>
                         </ListItemSecondaryAction>
                     </ListItem>
