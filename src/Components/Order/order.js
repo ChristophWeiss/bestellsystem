@@ -34,6 +34,7 @@ class Order extends Component {
     state = {
         token: localStorage.getItem('token'),
         waiter_name: "Lukas",
+        amount:1,
         categories: [
             {id: 1,description: "Essen"},
             {id: 2,description: "Trinken"},
@@ -108,6 +109,21 @@ class Order extends Component {
             showSubCategories: false
         })
     }
+    onChangeInputAmount = (event) =>{
+        if(!isNaN(event.target.value)){
+            var num = parseInt(event.target.value)
+            console.log(num)
+            this.setState({
+                amount:num
+            })
+
+        }
+    }
+    onEnterRegisterProduct = (id,name,price) =>{
+        console.log("hey")
+        console.log(this.state.amount)
+        this.addProductToOrder(id,name,this.state.amount,price);
+    }
     deleteProductOutOrder = (id,description,amount,price) =>{
         let arr = this.state.order;
         let help = null;
@@ -169,12 +185,16 @@ class Order extends Component {
     }
     addProductToOrder = (id,description,amount,price) =>{
         let arr = this.state.order;
+        console.log(arr)
         let help = null;
         let pay = 0;
         for (let i = 0; i< arr.length; i++){
 
             if(arr[i].id === id){
                  help = arr[i];
+                console.log(help)
+                console.log("amount", arr[i].amount + amount);
+                console.log("allPrice",arr[i].price *  arr[i].amount)
                  arr[i].amount = arr[i].amount + amount;
                 arr[i].allPrice = arr[i].price *  arr[i].amount
             }
@@ -182,15 +202,25 @@ class Order extends Component {
             pay += product_price;
         }
         if(help === null){
-            arr.push({
-                id: id, name: description, amount:1,price: price, allPrice:price
-            })
+            if(amount !== 1){
+                console.log(amount)
+                let priceAll  = amount*price;
+                arr.push({
+                    id: id, name: description, amount:amount,price: price, allPrice:priceAll
+                })
+            }else{
+                arr.push({
+                    id: id, name: description, amount:1,price: price, allPrice:price
+                })
+            }
+
             pay+= price * amount;
         }
         this.setState({
             order:arr,
             toPay:pay,
-            canPay:true
+            canPay:true,
+            amount:1
         })
     }
 
@@ -425,7 +455,10 @@ class Order extends Component {
                         products={this.state.products}
                         addProductOrder={this.addProductToOrder}
                         categories={this.state.categoriesID}
+                        addAmount={this.onEnterRegisterProduct}
+                        changeAmount={this.onChangeInputAmount}
                         backCategories={this.backSubCategories}
+                        amount={this.state.amount}
                     />
                     <PayProduct
                         showToPayProducts={this.state.showToPayProducts}
@@ -455,7 +488,6 @@ class Order extends Component {
                         Keine Produkte ausgewählt!!
                     </Alert>
                 </Snackbar>
-
                 <Dialog open={this.state.dialogOpen} onClose={this.handleDialogClose} aria-labelledby="form-dialog-title">
                     <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
                     <DialogContent>

@@ -8,6 +8,7 @@ import IconButton from "@material-ui/core/IconButton";
 import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
 import ImportContactsIcon from "@material-ui/icons/ImportContacts";
 import Divider from "@material-ui/core/Divider";
+import "./orderProductStyle.css"
 import List from "@material-ui/core/List";
 
 class OrderProdcuts extends Component {
@@ -53,9 +54,12 @@ class OrderProdcuts extends Component {
                         <ListItemIcon>
                             <FastfoodIcon />
                         </ListItemIcon>
-                        <ListItemText primary={v.name  +  " " + v.amount +  " x"} />
-                        <ListItemSecondaryAction>
-                            {v.allPrice} €
+                        <ListItemText primary={v.name  +  " " + v.amount +  " x"} mx="1rem"  />
+                        <div className={"line_between_text"}>
+                            {v.price} €
+                        </div>
+                        <ListItemSecondaryAction  mx="1rem" >
+                                {v.allPrice} €
                         </ListItemSecondaryAction>
                     </ListItem>
                 )

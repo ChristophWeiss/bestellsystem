@@ -7,8 +7,11 @@ import BackspaceIcon from "@material-ui/icons/Backspace";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import IconButton from "@material-ui/core/IconButton";
 import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
+import "./productsStyle.css"
 
 class products extends Component {
+
+
     render() {
         console.log(this.props.showProducts)
         if (!this.props.showProducts) { // Prop: The current step
@@ -17,6 +20,13 @@ class products extends Component {
         return (
             this.getProdcuts()
         );
+    }
+    uf = (e,id,name,price) => {
+        if (e.key === 'Enter') {
+            this.refs.input.blur()
+            this.props.addAmount(id,name,price)
+        }
+
     }
     getProdcuts = () => {
         console.log(this.props.products.length)
@@ -40,12 +50,13 @@ class products extends Component {
                 if (this.props.categories === v.categories_id) {
                     counter++;
                     data.push(
-                        <ListItem key={i} button onClick={() => this.props.addProductOrder(v.id,v.name,1, v.price)}>
-                            <ListItemIcon>
+                        <ListItem key={i} button>
+                            <ListItemIcon onClick={() => this.props.addProductOrder(v.id,v.name,1, v.price)}>
                                 <FastfoodIcon/>
                             </ListItemIcon>
-                            <ListItemText primary={v.name}/>
-                            <ListItemSecondaryAction>
+                            <ListItemText primary={v.name} onClick={() => this.props.addProductOrder(v.id,v.name,1, v.price)}/>
+                            <input ref={"input"} className={"ml-3 mr-3 input_width"} value={this.props.amount} type={"number"} onChange={this.props.changeAmount} onKeyDown={(e) => this.uf(e,v.id,v.name, v.price)}/>
+                            <ListItemSecondaryAction onClick={() => this.props.addProductOrder(v.id,v.name,1, v.price)}>
                                 {v.price} €
                             </ListItemSecondaryAction>
                         </ListItem>
