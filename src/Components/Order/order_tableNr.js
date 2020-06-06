@@ -100,7 +100,7 @@ class order_tableNr extends Component {
                                 <tbody>
                                 <tr>
                                     <td colSpan="3" align="center">
-                                        <input type="number" value={this.state.tisch_nr} autoFocus={true} pattern="[0-9]" min={0} id="tisch" name="tisch_nr" style={{margin:"5px"}} size="20" onChange={this.addValuefromInput}/>
+                                        <input type="number" value={this.state.tisch_nr} autoFocus={true}  pattern="[0-9]" min={0} id="tisch" name="tisch_nr" style={{margin:"5px"}} size="20" onChange={this.addValuefromInput}/>
                                     </td>
                                 </tr>
                                 <tr>

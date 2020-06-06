@@ -28,6 +28,8 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogContent from "@material-ui/core/DialogContent";
 import TextField from "@material-ui/core/TextField";
+import {Redirect} from "react-router-dom";
+
 import DialogActions from "@material-ui/core/DialogActions";
 
 class Order extends Component {
@@ -35,6 +37,8 @@ class Order extends Component {
         token: localStorage.getItem('token'),
         waiter_name: "Lukas",
         amount:1,
+        redirect: "",
+        redirectToLink: false,
         categories: [
             {id: 1,description: "Essen"},
             {id: 2,description: "Trinken"},
@@ -51,7 +55,8 @@ class Order extends Component {
         products:[
             {id: 1, name: "Bier",sizes_id:"klein", categories_id: 3,price: 2.5},
             {id: 2, name: "Vodka",sizes_id:"shot", categories_id: 4,price: 1},
-            {id:3, name:"Burger", sizes_id: "groß", categories_id: 2,price: 20}
+            {id:3, name:"Burger", sizes_id: "groß", categories_id: 2,price: 20},
+            {id:4, name:"Cola", sizes_id: "groß", categories_id: 5,price: 4.5}
         ],
         showCategories : true,
         showSubCategories: false,
@@ -62,13 +67,17 @@ class Order extends Component {
         showPayProducts:false,
         order:[],
         toPay: 0,
+        toPayAfterPayed:0,
         categoriesID:null,
         categoriesIDOld:null,
         canPay:false,
         paying:false,
         order_old:[],
+        toPayAfterKassieren: 0,
+        insertedToPay:0,
         visability:"invisible",
-        dialogOpen:false
+        dialogOpen:false,
+        toPayOk:false
     }
 
     componentDidMount() {
@@ -76,6 +85,11 @@ class Order extends Component {
         this.setState({
             tisch_nr: this.props.match.params.table_nr
         })
+    }
+    openNewBestellung = () => {
+        if(this.state.order.length === 0){
+            this.setState({redirectToLink: "/loggedin/Order"})
+        }
     }
     showSubCategories = (id) =>{
         console.log(id)
@@ -216,12 +230,14 @@ class Order extends Component {
 
             pay+= price * amount;
         }
+        console.log("pay1",this.state.canPay)
         this.setState({
             order:arr,
             toPay:pay,
             canPay:true,
             amount:1
         })
+        console.log("pay",this.state.canPay)
     }
 
     addProductToPayOrder = (id,description,amount,price) =>{
@@ -414,6 +430,16 @@ class Order extends Component {
                 total+= order[i].price * order[i].amount;
             }
             console.log(total)
+            let toPay = this.state.toPay;
+            let help = toPay-total
+            this.setState({
+                toPayAfterKassieren:total,
+                toPayAfterPayed:help
+            })
+
+            this.handleDialogOpen();
+
+
         }else{
             this.openError();
         }
@@ -421,15 +447,17 @@ class Order extends Component {
 
 
     render() {
-
+        if (this.state.redirectToLink != false) {
+            return <Redirect to={this.state.redirectToLink}/>;
+        }
 
         return (
             <div className={"w-100 h-100 container"}>
                 <Row className={"mt-1text-center"}>
                     <Col className={"m-2 mt-4 col-4 mr-2 text-center d-flex justify-content-center"}> <Logout/> Logout
                     </Col>
-                    <Col className={"mt-3  text-center d-flex justify-content-center"}>
-                        <Avatar>{this.props.match.params.table_nr}</Avatar></Col>
+                    <Col className={"mt-3  text-center d-flex justify-content-center"} >
+                        <Avatar onClick={() => this.openNewBestellung()}>{this.props.match.params.table_nr}</Avatar></Col>
                     <Col className={"m-2 mt-3 mr-2 col-4 text-center d-flex justify-content-center"}>
                         <Avatar>{this.state.waiter_name.substring(0, 1)}</Avatar>
                         <div className={"waiter_name"}> Kellner {this.state.waiter_name} </div>
@@ -488,28 +516,50 @@ class Order extends Component {
                         Keine Produkte ausgewählt!!
                     </Alert>
                 </Snackbar>
-                <Dialog open={this.state.dialogOpen} onClose={this.handleDialogClose} aria-labelledby="form-dialog-title">
-                    <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
+                <Dialog open={this.state.dialogOpen} fullWidth={true} maxWidth = {'xs'}  onClose={this.handleDialogClose} aria-labelledby="form-dialog-title">
+                    <DialogTitle id="form-dialog-title">Kassieren</DialogTitle>
                     <DialogContent>
                         <DialogContentText>
-                            To subscribe to this website, please enter your email address here. We will send updates
-                            occasionally.
+                            Wechselgeldrechner
                         </DialogContentText>
-                        <TextField
-                            autoFocus
-                            margin="dense"
-                            id="name"
-                            label="Email Address"
-                            type="email"
-                            fullWidth
-                        />
+                        <div className={"w-100"}>
+                            <table className={"table_border w-100"} >
+                                <tbody>
+                                <tr>
+                                    <td>Zu zahlen: </td>
+                                    <td>
+                                        <span>{this.state.toPayAfterKassieren} €</span>
+                                    </td>
+                                    <td>
+                                        <span>Bezahlt: </span>
+                                    </td>
+                                    <td>
+                                        <input ref={"input"} type="number" className={"input_width_order"} name={"insertedToPay"} onChange={this.onChangeInput} onKeyDown={this.onEnterDisabledFocus} data-mini="true" placeholder="20,00 €" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Zurück </td>
+                                    <td>
+                                        <span>{this.getBackIfEnteredToWechselGeld()} €</span>
+                                    </td>
+                                    <td>
+                                        <span>Zielbetrag: </span>
+                                    </td>
+                                    <td>
+                                        <input type="text" className={"input_width_order"}  value={this.state.toPayAfterKassieren + " €"} data-mini="true" disabled={true} placeholder="0,00 €" />
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={this.handleDialogClose} color="primary">
-                            Cancel
+                            Abbrechen
                         </Button>
-                        <Button onClick={this.handleDialogClosee} color="primary">
-                            Subscribe
+                        <Button onClick={this.handleDialogKassieren} disabled={this.canPressKassieren()} color="primary">
+                            Kassieren
                         </Button>
                     </DialogActions>
                 </Dialog>
@@ -531,6 +581,80 @@ class Order extends Component {
 
             </div>
         )
+    }
+    onChangeInput = (e) =>{
+        this.setState({
+            [e.target.name]:[e.target.value]
+        })
+    }
+    round = (wert, dez)  =>{
+        wert = parseFloat(wert);
+        if (!wert) return 0;
+        dez = parseInt(dez);
+        if (!dez) dez=0;
+
+        var umrechnungsfaktor = Math.pow(10,dez);
+
+        return Math.round(wert * umrechnungsfaktor) / umrechnungsfaktor;
+    }
+    onEnterDisabledFocus = (e) =>{
+        if (e.key === 'Enter') {
+            let help= this.state.insertedToPay-this.state.toPayAfterKassieren;
+            if(help >= 0){
+                this.refs.input.blur()
+            }
+
+        }
+    }
+    getBackIfEnteredToWechselGeld = () =>{
+        if(this.state.insertedToPay !== 0){
+            let help= this.state.insertedToPay-this.state.toPayAfterKassieren;
+            if(help >= 0){
+                return this.round(help,2);
+            }else{
+                return "Zu wenig"
+            }
+
+        }else{
+            return "?"
+        }
+    }
+    canPressKassieren = () =>{
+        if(this.state.insertedToPay !== 0){
+            let help= this.state.insertedToPay-this.state.toPayAfterKassieren;
+            if(help >= 0){
+                return false
+            }
+        }else{
+            return true;
+        }
+    }
+    handleDialogKassieren = () =>{
+        if(this.state.insertedToPay !== 0){
+            let help= this.state.insertedToPay-this.state.toPayAfterKassieren;
+            if(help >= 0){
+                this.handleDialogClose();
+                if(this.state.order.length !== 0){
+                    this.setState({
+                        toPayProducts:[],
+                        toPay:this.state.toPayAfterPayed,
+                        insertedToPay:0
+                    })
+                }else{
+                    this.setState({
+                        toPayProducts:[],
+                        toPay:this.state.toPayAfterPayed,
+                        insertedToPay:0,
+                        showOrderProducts:true
+                    })
+                    this.backCategories();
+                }
+
+
+            }
+        }else{
+
+        }
     }
 }
 

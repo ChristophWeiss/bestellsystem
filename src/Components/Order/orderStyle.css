@@ -1,5 +1,18 @@
-@media screen and (min-width: 992px)  {
-    .waiter_name{
+
+@media screen and (min-width: 992px) {
+    .waiter_name {
         margin-top: 0.5rem;
     }
+    .input_width_order{
+        width:6em;
+    }
+}
+    @media screen and (max-device-width: 1024px) {
+        .input_width_order{
+            width:3em;
+        }
+    }
+
+.table_border{
+border: 1px solid black
 }
