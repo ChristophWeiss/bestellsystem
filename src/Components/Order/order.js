@@ -58,25 +58,25 @@ class Order extends Component {
             {id:3, name:"Burger", sizes_id: "groß", categories_id: 2,price: 20},
             {id:4, name:"Cola", sizes_id: "groß", categories_id: 5,price: 4.5}
         ],
-        showCategories : true,
-        showSubCategories: false,
-        showOrderProducts:true,
-        showProducts:false,
-        toPayProducts:[],
-        showToPayProducts:false,
-        showPayProducts:false,
-        order:[],
-        toPay: 0,
-        toPayAfterPayed:0,
-        categoriesID:null,
-        categoriesIDOld:null,
-        canPay:false,
-        paying:false,
-        order_old:[],
-        toPayAfterKassieren: 0,
-        insertedToPay:0,
-        visability:"invisible",
-        dialogOpen:false,
+        showCategories : true, //To show CategoriesList
+        showSubCategories: false, //To show SubCategoriesList
+        showOrderProducts:true, //To show toOrderProductList
+        showProducts:false, //To show show ProductsList
+        toPayProducts:[], //Products that are in cart
+        showToPayProducts:false, //show ProductsThat are to be Payed
+        showPayProducts:false, //showProductsFormProducts
+        order:[], // show items that are ordered
+        toPay: 0, //total to pay for ordered Products
+        toPayAfterPayed:0, //total to BePayed that are selected
+        categoriesID:null, //save categories so if you wont go back it knows where you where
+        categoriesIDOld:null, //save categories when it gets  changed
+        canPay:false, //gets true when you have selected at least one product
+        paying:false, //gets true when you are in the paying context
+        order_old:[], //saves order to this variable to use it later
+        toPayAfterKassieren: 0, //total that is to Pay after you payed some payOrderedProducts but not all
+        insertedToPay:0, //saves the entered Total the waiter gets
+        visability:"invisible", //gets true to show button "kassieren" when he gets to the payOrderedProducts
+        dialogOpen:false, //toOpen Dialog
         toPayOk:false
     }
 
@@ -287,7 +287,7 @@ class Order extends Component {
                                 arr[i].amount = arr[i].amount - amount;
                                 arr[i].allPrice = arr[i].price * arr[i].amount
                                 wannaPay[j].amount = wannaPay[j].amount + amount;
-                                wannaPay[j].allPrice = wannaPay[j].price * wannaPay[j].amount
+                                wannaPay[j].allPrice = wannaPay[j].price * wannaPay[j].amount;
                             }
                         }
                     }
@@ -304,11 +304,14 @@ class Order extends Component {
             }
             console.log(arr)
             console.log(wannaPay)
+            this.getTotalOfToPay();
             this.setState({
                 order:wannaPay,
                 toPayProducts:arr
             })
+
         }
+
     }
     addAllProductsToPay = () =>{
         console.log(this.state.order_old)
@@ -325,6 +328,8 @@ class Order extends Component {
 
 
     addProductToPay = (id,description,amount,price) =>{
+        console.log("heyho")
+
         let arr = this.state.order;
         let wannaPay = this.state.toPayProducts;
         let help = null;
@@ -349,7 +354,7 @@ class Order extends Component {
                             id: id, name: description, amount: 1, price: price, allPrice: price
                         })
                     }
-
+                    this.getTotalOfToPay();
                     console.log(wannaPay)
                 }else {
                     let length = wannaPay.length;
@@ -383,11 +388,14 @@ class Order extends Component {
                     }
                 }
             }
-
+            console.log("helpME")
+            console.log(arr)
+            this.getTotalOfToPay();
         this.setState({
             order:arr,
             toPayProducts:wannaPay
         })
+
         }
     }
 
@@ -417,11 +425,30 @@ class Order extends Component {
             dialogOpen:true
         })
     }
-    handleDialogClose = () =>{
+    handleDialogClose = () => {
         this.setState({
-            dialogOpen:false
+            dialogOpen: false
         })
     }
+    getTotalOfToPay= () =>{
+            let order = this.state.toPayProducts;
+            let total = 0;
+            if(order.length !== 0){
+                for (let i = 0; i< order.length;i++){
+                    total+= order[i].price * order[i].amount;
+                }
+                console.log("tatsats",total)
+                let toPay = this.state.toPay;
+                let help = toPay-total
+                this.setState({
+                    toPayAfterKassieren: total
+                });
+            }else{
+                this.setState({
+                    toPayAfterKassieren: 0
+                });
+            }
+        }
     paySelectedProducts = () =>{
         let order = this.state.toPayProducts;
         let total = 0;
@@ -504,6 +531,7 @@ class Order extends Component {
                         showToPayProducts={this.state.showPayProducts}
                         addProductOrder={this.addProductToPayOrder}
                         paying={this.state.paying}
+                        totalPrice={this.state.toPayAfterKassieren}
                         addAllProductsToPay={this.addAllProductsToPay}
                         toPayProducts={this.state.toPayProducts}
                     />
@@ -534,13 +562,13 @@ class Order extends Component {
                                         <span>Bezahlt: </span>
                                     </td>
                                     <td>
-                                        <input ref={"input"} type="number" className={"input_width_order"} name={"insertedToPay"} onChange={this.onChangeInput} onKeyDown={this.onEnterDisabledFocus} data-mini="true" placeholder="20,00 €" />
+                                        <input ref={"input"} type="number" className={"input_width_order"} name={"insertedToPay"} onChange={this.onChangeInput} autoFocus={true} onKeyDown={this.onEnterDisabledFocus} data-mini="true" placeholder="20,00 €" />
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>Zurück </td>
                                     <td>
-                                        <span>{this.getBackIfEnteredToWechselGeld()} €</span>
+                                        <span><b>{this.getBackIfEnteredToWechselGeld()} €</b></span>
                                     </td>
                                     <td>
                                         <span>Zielbetrag: </span>
@@ -638,14 +666,17 @@ class Order extends Component {
                     this.setState({
                         toPayProducts:[],
                         toPay:this.state.toPayAfterPayed,
-                        insertedToPay:0
+                        insertedToPay:0,
+                        toPayAfterKassieren:0
                     })
                 }else{
                     this.setState({
                         toPayProducts:[],
-                        toPay:this.state.toPayAfterPayed,
+                        toPay:0,
                         insertedToPay:0,
-                        showOrderProducts:true
+                        visability:"invisible",
+                        showOrderProducts:true,
+                        toPayAfterKassieren:0
                     })
                     this.backCategories();
                 }

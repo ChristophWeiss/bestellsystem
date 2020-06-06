@@ -8,7 +8,7 @@ import ImportContactsIcon from "@material-ui/icons/ImportContacts";
 import Divider from "@material-ui/core/Divider";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import Button from "@material-ui/core/Button";
-
+import "./orderProductStyle.css"
 
 class ToPayProduct extends Component {
     render() {
@@ -19,6 +19,12 @@ class ToPayProduct extends Component {
         return (
             this.getProductsToPay()
         );
+    }
+    getToPay = ()=>{
+        let help = this.props.totalPrice;
+        if(help !== 0){
+            return help + " €";
+        }
     }
     getProductsToPay = () =>{
         console.log(this.props.toPayProducts.length)
@@ -32,6 +38,7 @@ class ToPayProduct extends Component {
                         <ImportContactsIcon/>
                     </ListItemIcon>
                     <ListItemText primary={"Bezahlen"}/>
+                    {this.getToPay()}
                 </ListItem>
                 <Divider/>
             </div>
@@ -75,8 +82,11 @@ class ToPayProduct extends Component {
                         <ListItemIcon>
                             <FastfoodIcon />
                         </ListItemIcon>
-                        <ListItemText primary={v.name  +  " " + v.amount +  " x"} />
-                        <ListItemSecondaryAction>
+                        <ListItemText primary={v.name  +  " " + v.amount +  " x"} mx="1rem"  />
+                        <div className={"line_between_text"}>
+                            {v.price} €
+                        </div>
+                        <ListItemSecondaryAction  mx="1rem" >
                             {v.allPrice} €
                         </ListItemSecondaryAction>
                     </ListItem>

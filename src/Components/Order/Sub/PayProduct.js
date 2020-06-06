@@ -7,6 +7,7 @@ import FastfoodIcon from "@material-ui/icons/Fastfood";
 import ImportContactsIcon from "@material-ui/icons/ImportContacts"
 import LocalAtmIcon from '@material-ui/icons/LocalAtm';
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
+import "./orderProductStyle.css"
 
 class PayProduct extends Component {
     render() {
@@ -38,8 +39,11 @@ class PayProduct extends Component {
                         <ListItemIcon>
                             <FastfoodIcon />
                         </ListItemIcon>
-                        <ListItemText primary={v.name  +  " " + v.amount +  " x"} />
-                        <ListItemSecondaryAction>
+                        <ListItemText primary={v.name  +  " " + v.amount +  " x"} mx="1rem"  />
+                        <div className={"line_between_text"}>
+                            {v.price} €
+                        </div>
+                        <ListItemSecondaryAction  mx="1rem" >
                             {v.allPrice} €
                         </ListItemSecondaryAction>
                     </ListItem>
