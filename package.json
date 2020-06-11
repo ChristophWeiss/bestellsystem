@@ -1,6 +1,7 @@
 {
   "name": "bestellsystem",
   "version": "0.1.0",
+  "homepage": "",
   "private": true,
   "dependencies": {
     "@babel/runtime": "^7.8.7",

@@ -6,6 +6,7 @@ import "./App.css";
 
 import Bestellen from "./Components/Order/order_tableNr";
 import Order from "./Components/Order/order";
+import Login from "./Components/Login/login";
 
 const url = "http://localhost/comparinator/Backend/";
 localStorage.setItem('url', url);
@@ -34,7 +35,10 @@ class App extends Component {
         return (
             <BrowserRouter>
                 <Route exact path={'/'} component={() =>
-                    <Bestellen/>
+                    <Redirect to="/loggedin/Order" />
+                }/>
+                <Route exact path={'/login'} component={() =>
+                    <Login />
                 }/>
                 <Route exact path={'/home/'} component={() =>
                     <Bestellen/>

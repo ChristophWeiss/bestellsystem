@@ -1,0 +1,23 @@
+@media all and (min-width: 480px) {
+    .Login {
+        margin: 1rem;
+        padding: 60px 0;
+    }
+
+    .Login form {
+        margin: 0 auto;
+        max-width: 320px;
+    }
+}
+.father {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.full_height{
+    height: 100vh;
+}
+.roundedBorders {
+    border-radius: 0 50% 50% 50%;
+}
+
