@@ -7,6 +7,7 @@ import "./App.css";
 import Bestellen from "./Components/Order/order_tableNr";
 import Order from "./Components/Order/order";
 import Login from "./Components/Login/login";
+import EditOrderProduct from "./Components/Order/Sub/EditOrderProduct";
 
 const url = "http://localhost/comparinator/Backend/";
 localStorage.setItem('url', url);
@@ -45,6 +46,9 @@ class App extends Component {
                 }/>
                 <Route exact path={'/loggedin/Order'} component={() =>
                     <Bestellen/>
+                }/>
+                <Route exact path={'/loggedin/EditOrder'} component={() =>
+                    <EditOrderProduct/>
                 }/>
                 <Route exact path={'/loggedin/Order/:table_nr/'} render={(props) =>
                     <Order {...props}/>

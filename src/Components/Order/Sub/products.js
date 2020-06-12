@@ -21,10 +21,10 @@ class products extends Component {
             this.getProdcuts()
         );
     }
-    uf = (e,id,name,price) => {
+    uf = (e,v) => {
         if (e.key === 'Enter') {
             this.refs.input.blur()
-            this.props.addAmount(id,name,price)
+            this.props.addAmount(v)
         }
 
     }
@@ -51,12 +51,12 @@ class products extends Component {
                     counter++;
                     data.push(
                         <ListItem key={i} button>
-                            <ListItemIcon onClick={() => this.props.addProductOrder(v.id,v.name,1, v.price)}>
+                            <ListItemIcon onClick={() => this.props.addProductOrder(v,1)}>
                                 <FastfoodIcon/>
                             </ListItemIcon>
-                            <ListItemText primary={v.name} onClick={() => this.props.addProductOrder(v.id,v.name,1, v.price)}/>
-                            <input ref={"input"} className={"ml-3 mr-3 input_width"} value={this.props.amount} type={"number"} onChange={this.props.changeAmount} onKeyDown={(e) => this.uf(e,v.id,v.name, v.price)}/>
-                            <ListItemSecondaryAction onClick={() => this.props.addProductOrder(v.id,v.name,1, v.price)}>
+                            <ListItemText primary={v.name} onClick={() => this.props.addProductOrder(v,1)}/>
+                            <input ref={"input"} className={"ml-3 mr-3 input_width"} value={this.props.amount} type={"number"} onChange={this.props.changeAmount} onKeyDown={(e) => this.uf(e,v)}/>
+                            <ListItemSecondaryAction onClick={() => this.props.addProductOrder(v,1)}>
                                 {v.price} €
                             </ListItemSecondaryAction>
                         </ListItem>

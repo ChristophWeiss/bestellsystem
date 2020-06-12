@@ -15,9 +15,10 @@
     align-items: center;
 }
 .full_height{
-    height: 100vh;
+    height: 80vh;
 }
 .roundedBorders {
-    border-radius: 0 50% 50% 50%;
+    background-color: grey;
+    border-radius: 40% 15% 40% 15%;
 }
 

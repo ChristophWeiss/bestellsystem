@@ -10,6 +10,8 @@ import ImportContactsIcon from "@material-ui/icons/ImportContacts";
 import Divider from "@material-ui/core/Divider";
 import "./orderProductStyle.css"
 import List from "@material-ui/core/List";
+import {Button} from "@material-ui/core";
+import MessageIcon from '@material-ui/icons/Message';
 
 class OrderProdcuts extends Component {
     render() {
@@ -50,11 +52,21 @@ class OrderProdcuts extends Component {
 
         this.props.order.map( (v,i) => {
                 data.push(
-                    <ListItem key={i} button onClick={() => this.props.deleteProductOrder(v.id,v.name,1, v.price)}>
+                    <ListItem key={i} button onClick={() => this.props.deleteFromOrder(v,1)}>
                         <ListItemIcon>
                             <FastfoodIcon />
                         </ListItemIcon>
-                        <ListItemText primary={v.name  +  " " + v.amount +  " x"} mx="1rem"  />
+                        <ListItemText
+                            primary={v.amount +  "x " + v.name } mx="1rem"
+                            secondary={
+                                <React.Fragment>
+                                    {v.note}
+                                </React.Fragment>
+                            }
+                        />
+                        <div className={""} onClick={() => this.props.showEditDialog(v)}>
+                           <MessageIcon />
+                        </div>
                         <div className={"line_between_text"}>
                             {v.price} €
                         </div>

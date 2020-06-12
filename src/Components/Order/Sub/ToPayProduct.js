@@ -78,11 +78,18 @@ class ToPayProduct extends Component {
 
         this.props.toPayProducts.map( (v,i) => {
                 data.push(
-                    <ListItem key={i} button  onClick={() => this.props.addProductOrder(v.id,v.name,1, v.price)}>
+                    <ListItem key={i} button  onClick={() => this.props.addProductOrder(v,1)}>
                         <ListItemIcon>
                             <FastfoodIcon />
                         </ListItemIcon>
-                        <ListItemText primary={v.name  +  " " + v.amount +  " x"} mx="1rem"  />
+                        <ListItemText
+                            primary={v.name  +  " " + v.amount +  " x"} mx="1rem"
+                            secondary={
+                                <React.Fragment>
+                                    {v.note}
+                                </React.Fragment>
+                            }
+                        />
                         <div className={"line_between_text"}>
                             {v.price} €
                         </div>

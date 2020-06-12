@@ -29,8 +29,10 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogContent from "@material-ui/core/DialogContent";
 import TextField from "@material-ui/core/TextField";
 import {Redirect} from "react-router-dom";
+import Product from "./Sub/Models/Product"
 
 import DialogActions from "@material-ui/core/DialogActions";
+import EditOrderProduct from "./Sub/EditOrderProduct";
 
 class Order extends Component {
     state = {
@@ -52,12 +54,13 @@ class Order extends Component {
             {id: 4,description: "HardAlkohol",categories_id:4},
             {id: 5,description: "Saft",categories_id:2}
         ],
-        products:[
-            {id: 1, name: "Bier",sizes_id:"klein", categories_id: 3,price: 2.5},
-            {id: 2, name: "Vodka",sizes_id:"shot", categories_id: 4,price: 1},
-            {id:3, name:"Burger", sizes_id: "groß", categories_id: 2,price: 20},
-            {id:4, name:"Cola", sizes_id: "groß", categories_id: 5,price: 4.5}
+        product_data:[
+            {id: 1, name: "Bier",sizes_id:"klein", categories_id: 3,available:1000,price: 2.5,note:""},
+            {id: 2, name: "Vodka",sizes_id:"shot", categories_id: 4,available:1000,price: 1,note:""},
+            {id:3, name:"Burger", sizes_id: "groß", categories_id: 2,available:1000,price: 20,note:""},
+            {id:4, name:"Cola", sizes_id: "groß", categories_id: 5,available:1000,price: 4.5,note:""}
         ],
+        products:[],
         showCategories : true, //To show CategoriesList
         showSubCategories: false, //To show SubCategoriesList
         showOrderProducts:true, //To show toOrderProductList
@@ -77,7 +80,12 @@ class Order extends Component {
         insertedToPay:0, //saves the entered Total the waiter gets
         visability:"invisible", //gets true to show button "kassieren" when he gets to the payOrderedProducts
         dialogOpen:false, //toOpen Dialog
-        toPayOk:false
+        toPayOk:false,
+        dialogEditOpen:false,
+        product_toEdit:"",
+        EnteredNote:"",
+        amount_input:0
+
     }
 
     componentDidMount() {
@@ -85,6 +93,22 @@ class Order extends Component {
         this.setState({
             tisch_nr: this.props.match.params.table_nr
         })
+        this.saveProduct_intoArray();
+    }
+    saveProduct_intoArray = () =>{
+        var products_data = this.state.product_data;
+        var array_product = this.state.products;
+        var i = 0;
+        var length = products_data.length
+        for (i;i<length;i++){
+            var x = new Product(products_data[i].id,products_data[i].name,products_data[i].sizes_id,products_data[i].categories_id,products_data[i].available,products_data[i].price,products_data[i].note);
+            array_product.push(x)
+        }
+        console.log(array_product);
+        this.setState({
+            products:array_product
+        })
+
     }
     openNewBestellung = () => {
         if(this.state.order.length === 0){
@@ -133,12 +157,12 @@ class Order extends Component {
 
         }
     }
-    onEnterRegisterProduct = (id,name,price) =>{
+    onEnterRegisterProduct = (v) =>{
         console.log("hey")
         console.log(this.state.amount)
-        this.addProductToOrder(id,name,this.state.amount,price);
+        this.addProductToOrder(v,this.state.amount);
     }
-    deleteProductOutOrder = (id,description,amount,price) =>{
+    deleteProductOutOrder = (v,amount) =>{
         let arr = this.state.order;
         let help = null;
         let pay = 0;
@@ -147,7 +171,7 @@ class Order extends Component {
             console.log("del")
             for (let i = 0; i< arr.length; i++){
 
-                if(arr[i].id === id) {
+                if(arr[i].id === v.id) {
                     if (arr[i].amount === 1) {
                         arr.splice(i, i + 1)
                     } else {
@@ -197,14 +221,15 @@ class Order extends Component {
             })
         }
     }
-    addProductToOrder = (id,description,amount,price) =>{
+    addProductToOrder = (v,amount) =>{
         let arr = this.state.order;
+        console.log(v)
         console.log(arr)
         let help = null;
         let pay = 0;
         for (let i = 0; i< arr.length; i++){
 
-            if(arr[i].id === id){
+            if(arr[i].id === v.id){
                  help = arr[i];
                 console.log(help)
                 console.log("amount", arr[i].amount + amount);
@@ -216,19 +241,19 @@ class Order extends Component {
             pay += product_price;
         }
         if(help === null){
-            if(amount !== 1){
+            if(v.amount !== 1){
                 console.log(amount)
-                let priceAll  = amount*price;
+                let priceAll  = amount*v.price;
                 arr.push({
-                    id: id, name: description, amount:amount,price: price, allPrice:priceAll
+                    id: v.id, name: v.name, amount:amount,price: v.price, allPrice:priceAll,note: v.note
                 })
             }else{
                 arr.push({
-                    id: id, name: description, amount:1,price: price, allPrice:price
+                    id: v.id, name: v.name, amount:1,price: v.price, allPrice: v.price,note: v.note
                 })
             }
 
-            pay+= price * amount;
+            pay+= v.price * amount;
         }
         console.log("pay1",this.state.canPay)
         this.setState({
@@ -240,7 +265,7 @@ class Order extends Component {
         console.log("pay",this.state.canPay)
     }
 
-    addProductToPayOrder = (id,description,amount,price) =>{
+    addProductToPayOrder = (v,amount) =>{
         let wannaPay = this.state.order;
         let arr = this.state.toPayProducts;
         let help = null;
@@ -250,7 +275,7 @@ class Order extends Component {
         console.log("asasas",wannaPay.length)
         for (let i = 0; i< arr.length; i++) {
 
-            if(arr[i].id === id){
+            if(arr[i].id === v.id){
                 console.log(arr[i])
                 if(wannaPay.length===0){
                     console.log(wannaPay)
@@ -259,14 +284,14 @@ class Order extends Component {
                         arr[i].amount = arr[i].amount - amount;
                         arr[i].allPrice = arr[i].price * arr[i].amount
                         wannaPay.push({
-                            id: id, name: description, amount: 1, price: price, allPrice: price
+                            id: v.id, name: v.name, amount: 1, price: v.price, allPrice: v.price,note: v.note
                         })
                         arr.splice(i, i + 1)
                     }else {
                         arr[i].amount = arr[i].amount - amount;
                         arr[i].allPrice = arr[i].price * arr[i].amount
                         wannaPay.push({
-                            id: id, name: description, amount: 1, price: price, allPrice: price
+                            id: v.id, name: v.name, amount: 1, price: v.price, allPrice: v.price, note: v.note
                         })
                     }
                     console.log(wannaPay)
@@ -275,8 +300,8 @@ class Order extends Component {
                     for (let j = 0; j < length; j++) {
                         console.log(wannaPay)
                         console.log(wannaPay[j].id)
-                        console.log(id)
-                        if (wannaPay[j].id === id) {
+                        console.log(v.id)
+                        if (wannaPay[j].id === v.id) {
                             help = wannaPay[j];
                             console.log("FOUND")
                             if (arr[i].amount === 1) {
@@ -297,7 +322,7 @@ class Order extends Component {
                         arr[i].amount = arr[i].amount - amount;
                         arr[i].allPrice = arr[i].price * arr[i].amount
                         wannaPay.push({
-                            id: id, name: description, amount: 1, price: price, allPrice: price
+                            id: v.id, name: v.name, amount: 1, price: v.price, allPrice: v.price
                         })
                     }
                 }
@@ -327,16 +352,14 @@ class Order extends Component {
 
 
 
-    addProductToPay = (id,description,amount,price) =>{
-        console.log("heyho")
-
+    addProductToPay = (v,amount) =>{
         let arr = this.state.order;
         let wannaPay = this.state.toPayProducts;
         let help = null;
         let pay = 0;
         for (let i = 0; i< arr.length; i++) {
 
-            if(arr[i].id === id){
+            if(arr[i].id === v.id){
                 if(wannaPay.length===0){
                     console.log(wannaPay)
                     console.log("first time")
@@ -344,14 +367,14 @@ class Order extends Component {
                         arr[i].amount = arr[i].amount - amount;
                         arr[i].allPrice = arr[i].price * arr[i].amount
                         wannaPay.push({
-                            id: id, name: description, amount: 1, price: price, allPrice: price
+                            id: v.id, name: v.name, amount: 1, price: v.price, allPrice: v.price
                         })
                         arr.splice(i, i + 1)
                     }else {
                         arr[i].amount = arr[i].amount - amount;
                         arr[i].allPrice = arr[i].price * arr[i].amount
                         wannaPay.push({
-                            id: id, name: description, amount: 1, price: price, allPrice: price
+                            id: v.id, name: v.name, amount: 1, price: v.price, allPrice: v.price
                         })
                     }
                     this.getTotalOfToPay();
@@ -361,8 +384,8 @@ class Order extends Component {
                     for (let j = 0; j < length; j++) {
                         console.log(wannaPay)
                         console.log(wannaPay[j].id)
-                        console.log(id)
-                        if (wannaPay[j].id === id) {
+                        console.log(v.id)
+                        if (wannaPay[j].id === v.id) {
                             help = wannaPay[j];
                             console.log("FOUND")
                             if (arr[i].amount === 1) {
@@ -383,7 +406,7 @@ class Order extends Component {
                             arr[i].amount = arr[i].amount - amount;
                             arr[i].allPrice = arr[i].price * arr[i].amount
                             wannaPay.push({
-                                id: id, name: description, amount: 1, price: price, allPrice: price
+                                id: v.id, name: v.name, amount: 1, price: v.price, allPrice: v.price
                             })
                     }
                 }
@@ -471,7 +494,13 @@ class Order extends Component {
             this.openError();
         }
     }
-
+    OpenDialogWithData = (product) => {
+        this.setState({
+            product_toEdit:product,
+            dialogEditOpen:true,
+            amount_input:product.amount
+        })
+    }
 
     render() {
         if (this.state.redirectToLink != false) {
@@ -525,7 +554,8 @@ class Order extends Component {
                     <OrderProducts
                         showOrderProducts={this.state.showOrderProducts}
                         order={this.state.order}
-                        deleteProductOrder={this.deleteProductOutOrder}
+                        deleteFromOrder={this.deleteProductOutOrder}
+                        showEditDialog={this.OpenDialogWithData}
                     />
                     <ToPayProduct
                         showToPayProducts={this.state.showPayProducts}
@@ -544,6 +574,13 @@ class Order extends Component {
                         Keine Produkte ausgewählt!!
                     </Alert>
                 </Snackbar>
+                <EditOrderProduct
+                    isOpen={this.state.dialogEditOpen}
+                    product={this.state.product_toEdit}
+                    onChangeIn={this.onChangeInput}
+                    EnteredNote={this.state.EnteredNote}
+                    amount_input={this.state.amount_input}
+                />
                 <Dialog open={this.state.dialogOpen} fullWidth={true} maxWidth = {'xs'}  onClose={this.handleDialogClose} aria-labelledby="form-dialog-title">
                     <DialogTitle id="form-dialog-title">Kassieren</DialogTitle>
                     <DialogContent>
@@ -611,8 +648,9 @@ class Order extends Component {
         )
     }
     onChangeInput = (e) =>{
+        let value = e.target.value;
         this.setState({
-            [e.target.name]:[e.target.value]
+            [e.target.name]:value
         })
     }
     round = (wert, dez)  =>{

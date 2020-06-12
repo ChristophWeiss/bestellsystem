@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Button, FormGroup, FormControl, FormLabel } from "react-bootstrap";
 import "./css/login.css"
+import Logo from "./img/logo_Placeholder.png"
 import Row from "react-bootstrap/Row";
 
 export default function Login() {
@@ -19,8 +20,8 @@ export default function Login() {
         <div className="Login father full_height">
 
             <form onSubmit={handleSubmit} className={""}>
-                <Row>
-                    <img className={"roundedBorders"} src={"./img/logo-placeholder.png"} alt={"LOGO"}/>
+                <Row className={"d-flex justify-content-center mb-3"}>
+                    <img className={"roundedBorders"} width={"150px"} height={"150px"} src={Logo} alt={"LOGO"}/>
                 </Row>
                <Row>
                    <FormGroup controlId="email" bsSize="large" >
