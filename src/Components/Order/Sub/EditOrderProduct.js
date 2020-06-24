@@ -31,6 +31,7 @@ class EditOrderProduct extends Component{
         if(!this.props.isOpen){
             return "";
         }
+        console.log("help",this.props.product )
         return (
             <div>
                 <Dialog style={{minHeight: "75%"}} open={this.props.isOpen} onClose={this.handleClose}  fullWidth={true} maxWidth={"sm"} aria-labelledby="form-dialog-title">
@@ -76,19 +77,18 @@ class EditOrderProduct extends Component{
                         </FormGroup>
                         </Row>
                         <Row className={"d-flex justify-content-center"}>
-                            <Button className={"w-50 m-1 border"}>
-                               Alle ändern
-                            </Button>
-                        </Row>
-                        <Row className={"d-flex justify-content-center"}>
-                            <Button className={"w-75 m-1"}>
+                            <Button className={"w-75 m-1"} onClick={ () => this.props.addOneNote(this.props.product)}>
                                 Einzeln ändern
                             </Button>
                         </Row>
-
+                        <Row className={"d-flex justify-content-center"}>
+                            <Button className={"w-50 m-1 border"} onClick={() => this.props.addMoreNote(this.props.product)}>
+                               Alle ändern
+                            </Button>
+                        </Row>
                     </DialogContent>
                     <DialogActions>
-                        <Button onClick={this.handleClose} color="primary">
+                        <Button onClick={() => this.props.handleClose()} color="primary">
                             Cancel
                         </Button>
                         <Button onClick={this.handleClose} color="primary">

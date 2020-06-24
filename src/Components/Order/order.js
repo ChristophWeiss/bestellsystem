@@ -55,12 +55,13 @@ class Order extends Component {
             {id: 5,description: "Saft",categories_id:2}
         ],
         product_data:[
-            {id: 1, name: "Bier",sizes_id:"klein", categories_id: 3,available:1000,price: 2.5,note:""},
-            {id: 2, name: "Vodka",sizes_id:"shot", categories_id: 4,available:1000,price: 1,note:""},
-            {id:3, name:"Burger", sizes_id: "groß", categories_id: 2,available:1000,price: 20,note:""},
-            {id:4, name:"Cola", sizes_id: "groß", categories_id: 5,available:1000,price: 4.5,note:""}
+            {id: 1, name: "Bier",sizes_id:"klein", categories_id: 3,available:1000,price: 2.5},
+            {id: 2, name: "Vodka",sizes_id:"shot", categories_id: 4,available:1000,price: 1},
+            {id:3, name:"Burger", sizes_id: "groß", categories_id: 2,available:1000,price: 20},
+            {id:4, name:"Cola", sizes_id: "groß", categories_id: 5,available:1000,price: 4.5}
         ],
-        products:[],
+        note_data:[],
+        products_converted:[],
         showCategories : true, //To show CategoriesList
         showSubCategories: false, //To show SubCategoriesList
         showOrderProducts:true, //To show toOrderProductList
@@ -95,20 +96,26 @@ class Order extends Component {
         })
         this.saveProduct_intoArray();
     }
+
+    saveNoteToState = (arr) =>{
+        this.setState({
+            note_data:arr
+        })
+    }
+
     saveProduct_intoArray = () =>{
         var products_data = this.state.product_data;
-        var array_product = this.state.products;
+        var array_product = this.state.products_converted;
         var i = 0;
         var length = products_data.length
         for (i;i<length;i++){
-            var x = new Product(products_data[i].id,products_data[i].name,products_data[i].sizes_id,products_data[i].categories_id,products_data[i].available,products_data[i].price,products_data[i].note);
+            var x = new Product(products_data[i].id,products_data[i].name,products_data[i].sizes_id,products_data[i].categories_id,products_data[i].available,products_data[i].price);
             array_product.push(x)
         }
         console.log(array_product);
         this.setState({
-            products:array_product
+            products_converted:array_product
         })
-
     }
     openNewBestellung = () => {
         if(this.state.order.length === 0){
@@ -245,11 +252,11 @@ class Order extends Component {
                 console.log(amount)
                 let priceAll  = amount*v.price;
                 arr.push({
-                    id: v.id, name: v.name, amount:amount,price: v.price, allPrice:priceAll,note: v.note
+                    id: v.id, name: v.name, amount:amount,price: v.price, allPrice:priceAll
                 })
             }else{
                 arr.push({
-                    id: v.id, name: v.name, amount:1,price: v.price, allPrice: v.price,note: v.note
+                    id: v.id, name: v.name, amount:1,price: v.price, allPrice: v.price
                 })
             }
 
@@ -263,6 +270,85 @@ class Order extends Component {
             amount:1
         })
         console.log("pay",this.state.canPay)
+    }
+    addNoteToProduct = (product) =>{
+        console.log(this.state.EnteredNote)
+        console.log(product)
+        let notes = this.state.note_data;
+        console.log(notes)
+        let order = this.state.order;
+        console.log(order)
+        let i = 0;
+        var counter = 0;
+        let length = notes.length
+        var index;
+        console.log(length)
+        if(length > 0){
+        for (i;i<length;i++){
+            for (var j = 0; j < order.length;j++){
+                if(product.id === order[j].id){
+                    if(order[j].amount > 1){
+                        order[j].amount--;
+                    }else{
+                        console.log("del")
+                        console.log(order[j])
+                        order.splice(j, j + 1)
+                    }
+                    console.log(notes[i])
+                    if(notes[i].product_id === product.id ){
+                        counter++;
+                        index = i;
+                        console.log("same NOte")
+                    }
+                }
+            }
+
+        }
+        console.log(counter)
+        if(counter > 0){
+            if(notes[index].note === this.state.EnteredNote){
+                notes[index].amount++;
+                console.log(notes[index])
+            }else{
+                console.log(notes[index])
+                notes.push(
+                    {id:notes[notes.length-1].id++,product_id:product.id, note:this.state.EnteredNote,amount:1,amount_used:0}
+                )
+            }
+        }else{
+            console.log("newNote")
+            notes.push(
+                {id:notes[notes.length-1].id++,product_id:product.id, note:this.state.EnteredNote,amount:1,amount_used:0}
+            )
+        }
+        }else{
+            for (var j = 0; j < order.length;j++){
+                if(product.id === order[j].id){
+                    if(order[j].amount > 1){
+                        order[j].amount--;
+                    }else{
+                        console.log("del")
+                        console.log(order[j])
+                        order.splice(j, j + 1)
+                    }
+                    notes.push(
+                        {id: 1 ,product_id:product.id, note:this.state.EnteredNote,amount:1,amount_used:0}
+                    )
+                }
+            }
+        }
+        console.table(order)
+        console.table(notes)
+        this.setState({
+            order: order,
+            note_data: notes,
+            dialogEditOpen: false,
+            EnteredNote: ""
+        })
+        console.log("one product")
+    }
+    addNoteToProducts = () =>{
+        console.log("more products_converted")
     }
 
     addProductToPayOrder = (v,amount) =>{
@@ -284,14 +370,14 @@ class Order extends Component {
                         arr[i].amount = arr[i].amount - amount;
                         arr[i].allPrice = arr[i].price * arr[i].amount
                         wannaPay.push({
-                            id: v.id, name: v.name, amount: 1, price: v.price, allPrice: v.price,note: v.note
+                            id: v.id, name: v.name, amount: 1, price: v.price, allPrice: v.price
                         })
                         arr.splice(i, i + 1)
                     }else {
                         arr[i].amount = arr[i].amount - amount;
                         arr[i].allPrice = arr[i].price * arr[i].amount
                         wannaPay.push({
-                            id: v.id, name: v.name, amount: 1, price: v.price, allPrice: v.price, note: v.note
+                            id: v.id, name: v.name, amount: 1, price: v.price, allPrice: v.price
                         })
                     }
                     console.log(wannaPay)
@@ -453,6 +539,11 @@ class Order extends Component {
             dialogOpen: false
         })
     }
+    handleDialogEditClose = () =>{
+        this.setState({
+            dialogEditOpen: false
+        })
+    }
     getTotalOfToPay= () =>{
             let order = this.state.toPayProducts;
             let total = 0;
@@ -536,7 +627,7 @@ class Order extends Component {
                     />
                     <Products
                         showProducts={this.state.showProducts}
-                        products={this.state.products}
+                        products={this.state.products_converted}
                         addProductOrder={this.addProductToOrder}
                         categories={this.state.categoriesID}
                         addAmount={this.onEnterRegisterProduct}
@@ -554,6 +645,9 @@ class Order extends Component {
                     <OrderProducts
                         showOrderProducts={this.state.showOrderProducts}
                         order={this.state.order}
+                        products={this.state.product_data}
+                        notes={this.state.note_data}
+                        saveNoteToState={this.saveNoteToState}
                         deleteFromOrder={this.deleteProductOutOrder}
                         showEditDialog={this.OpenDialogWithData}
                     />
@@ -578,6 +672,9 @@ class Order extends Component {
                     isOpen={this.state.dialogEditOpen}
                     product={this.state.product_toEdit}
                     onChangeIn={this.onChangeInput}
+                    addOneNote={this.addNoteToProduct}
+                    addMoreNote={this.addNoteToProducts}
+                    handleClose={this.handleDialogEditClose}
                     EnteredNote={this.state.EnteredNote}
                     amount_input={this.state.amount_input}
                 />

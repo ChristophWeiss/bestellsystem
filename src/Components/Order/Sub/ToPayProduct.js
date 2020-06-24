@@ -84,11 +84,6 @@ class ToPayProduct extends Component {
                         </ListItemIcon>
                         <ListItemText
                             primary={v.name  +  " " + v.amount +  " x"} mx="1rem"
-                            secondary={
-                                <React.Fragment>
-                                    {v.note}
-                                </React.Fragment>
-                            }
                         />
                         <div className={"line_between_text"}>
                             {v.price} €

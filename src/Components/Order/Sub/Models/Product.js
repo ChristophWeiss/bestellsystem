@@ -1,12 +1,11 @@
 export default class Product {
-     constructor(id,name,sizes_id,categories_id,available,price,note) {
+     constructor(id,name,sizes_id,categories_id,available,price) {
         this.id = id;
         this.name = name;
         this.sizes_id = sizes_id;
         this.categories_id = categories_id;
         this.available = available;
         this.price = price;
-        this.note = note;
     }
 
     get p_id() {
@@ -44,11 +43,5 @@ export default class Product {
     }
     set p_price(x) {
         this.available = x;
-    }
-    get p_note() {
-        return this.note;
-    }
-    set p_note(x) {
-        this.note = x;
     }
 }
