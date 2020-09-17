@@ -19,7 +19,7 @@ class Categories extends Component {
     }
     getCategories = () => {
 
-        console.log(this.props.categories.length)
+        // console.log(this.props.categories.length)
 
         let data = [];
 

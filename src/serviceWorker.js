@@ -44,7 +44,7 @@ export function register(config) {
           console.log(
             'This web app is being served cache-first by a service ' +
               'worker. To learn more, visit https://bit.ly/CRA-PWA'
-          );
+          )
         });
       } else {
         // Is not localhost. Just register service worker
@@ -72,7 +72,7 @@ function registerValidSW(swUrl, config) {
               console.log(
                 'New content is available and will be used when all ' +
                   'tabs for this page are closed. See https://bit.ly/CRA-PWA.'
-              );
+              )
 
               // Execute callback
               if (config && config.onUpdate) {

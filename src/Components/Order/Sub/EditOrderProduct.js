@@ -31,7 +31,7 @@ class EditOrderProduct extends Component{
         if(!this.props.isOpen){
             return "";
         }
-        console.log("help",this.props.product )
+        //console.log("help",this.props.product )
         return (
             <div>
                 <Dialog style={{minHeight: "75%"}} open={this.props.isOpen} onClose={this.handleClose}  fullWidth={true} maxWidth={"sm"} aria-labelledby="form-dialog-title">

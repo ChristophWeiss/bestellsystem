@@ -11,7 +11,7 @@ import "./orderProductStyle.css"
 
 class PayProduct extends Component {
     render() {
-        console.log(this.props.showToPayProducts)
+        //console.log(this.props.showToPayProducts)
         if (!this.props.showToPayProducts) { // Prop: The current step
             return null
         }
@@ -20,7 +20,7 @@ class PayProduct extends Component {
         );
     }
     getProductsToPay = () =>{
-        console.log(this.props.order.length)
+        //console.log(this.props.order.length)
 
         let data = [];
 

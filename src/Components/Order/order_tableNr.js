@@ -13,7 +13,7 @@ class order_tableNr extends Component {
 
     addtoValue = (e) =>{
         let help = this.state.tisch_nr;
-            console.log(e);
+            //console.log(e);
         let number = e;
         if(this.hasNumber(number)){
             help +=  number;
@@ -24,7 +24,7 @@ class order_tableNr extends Component {
         if(number=="DEL"){
 
             var valueshelp = this.state.tisch_nr;
-            console.log(valueshelp,valueshelp.toString().length)
+            //console.log(valueshelp,valueshelp.toString().length)
             if(valueshelp.toString().length > 0){
                 if(valueshelp.toString().length == 1){
                     this.setState({
@@ -69,7 +69,7 @@ class order_tableNr extends Component {
     handleSubmit = event => {
         event.preventDefault();
         if(!this.empty(this.state.tisch_nr)){
-            console.log(this.state.tisch_nr)
+            //console.log(this.state.tisch_nr)
             this.openOrderView(this.state.tisch_nr);
             this.setState({
                 tisch_nr : ""
@@ -87,7 +87,7 @@ class order_tableNr extends Component {
             margin: "5px"
         }
         if (this.state.redirectToLink !== false) {
-            console.log(<Redirect to={this.state.redirect}/>)
+            //console.log(<Redirect to={this.state.redirect}/>)
             return <Redirect to={this.state.redirect}/>;
         }
 

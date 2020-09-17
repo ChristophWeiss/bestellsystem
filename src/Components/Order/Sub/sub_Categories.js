@@ -10,7 +10,7 @@ import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
 
 class SubCategories extends Component {
     render() {
-        console.log(this.props.showSubCategories)
+        //console.log(this.props.showSubCategories)
         if (!this.props.showSubCategories) { // Prop: The current step
             return null
         }
@@ -20,7 +20,7 @@ class SubCategories extends Component {
     }
     getSubCategories = () => {
 
-        console.log(this.props.sub_categories.length)
+        // console.log(this.props.sub_categories.length)
         let length = this.props.sub_categories.length;
         let data = [];
 

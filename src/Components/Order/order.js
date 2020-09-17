@@ -5,7 +5,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
 import Avatar from "@material-ui/core/Avatar";
-import {Col, Row,Button} from "react-bootstrap"
+import {Col, Row, Button} from "react-bootstrap"
 import Logout from '@material-ui/icons/ExitToApp';
 import "./orderStyle.css"
 import FastfoodIcon from '@material-ui/icons/Fastfood';
@@ -38,154 +38,154 @@ class Order extends Component {
     state = {
         token: localStorage.getItem('token'),
         waiter_name: "Lukas",
-        amount:1,
+        amount: 1,
         redirect: "",
         redirectToLink: false,
         categories: [
-            {id: 1,description: "Essen"},
-            {id: 2,description: "Trinken"},
-            {id: 3,description: "Desert"},
-            {id: 4,description: "Alkohol"}
+            {id: 1, description: "Essen"},
+            {id: 2, description: "Trinken"},
+            {id: 3, description: "Desert"},
+            {id: 4, description: "Alkohol"}
         ],
-        subcategories:[
-            {id: 1,description: "Nudeln",categories_id:1},
-            {id: 2,description: "Burger",categories_id:1},
-            {id: 3,description: "SoftAlkohol",categories_id:4},
-            {id: 4,description: "HardAlkohol",categories_id:4},
-            {id: 5,description: "Saft",categories_id:2}
+        subcategories: [
+            {id: 1, description: "Nudeln", categories_id: 1},
+            {id: 2, description: "Burger", categories_id: 1},
+            {id: 3, description: "SoftAlkohol", categories_id: 4},
+            {id: 4, description: "HardAlkohol", categories_id: 4},
+            {id: 5, description: "Saft", categories_id: 2}
         ],
-        product_data:[
-            {id: 1, name: "Bier",sizes_id:"klein", categories_id: 3,available:1000,price: 2.5},
-            {id: 2, name: "Vodka",sizes_id:"shot", categories_id: 4,available:1000,price: 1},
-            {id:3, name:"Burger", sizes_id: "groß", categories_id: 2,available:1000,price: 20},
-            {id:4, name:"Cola", sizes_id: "groß", categories_id: 5,available:1000,price: 4.5}
+        product_data: [
+            {id: 1, name: "Bier", sizes_id: "klein", categories_id: 3, available: 1000, price: 2.5},
+            {id: 2, name: "Vodka", sizes_id: "shot", categories_id: 4, available: 1000, price: 1},
+            {id: 3, name: "Burger", sizes_id: "groß", categories_id: 2, available: 1000, price: 20},
+            {id: 4, name: "Cola", sizes_id: "groß", categories_id: 5, available: 1000, price: 4.5}
         ],
-        note_data:[],
-        products_converted:[],
-        showCategories : true, //To show CategoriesList
+        note_data: [],
+        products_converted: [],
+        showCategories: true, //To show CategoriesList
         showSubCategories: false, //To show SubCategoriesList
-        showOrderProducts:true, //To show toOrderProductList
-        showProducts:false, //To show show ProductsList
-        toPayProducts:[], //Products that are in cart
-        showToPayProducts:false, //show ProductsThat are to be Payed
-        showPayProducts:false, //showProductsFormProducts
-        order:[], // show items that are ordered
+        showOrderProducts: true, //To show toOrderProductList
+        showProducts: false, //To show show ProductsList
+        toPayProducts: [], //Products that are in cart
+        showToPayProducts: false, //show ProductsThat are to be Payed
+        showPayProducts: false, //showProductsFormProducts
+        order: [], // show items that are ordered
         toPay: 0, //total to pay for ordered Products
-        toPayAfterPayed:0, //total to BePayed that are selected
-        categoriesID:null, //save categories so if you wont go back it knows where you where
-        categoriesIDOld:null, //save categories when it gets  changed
-        canPay:false, //gets true when you have selected at least one product
-        paying:false, //gets true when you are in the paying context
-        order_old:[], //saves order to this variable to use it later
+        toPayAfterPayed: 0, //total to BePayed that are selected
+        categoriesID: null, //save categories so if you wont go back it knows where you where
+        categoriesIDOld: null, //save categories when it gets  changed
+        canPay: false, //gets true when you have selected at least one product
+        paying: false, //gets true when you are in the paying context
+        order_old: [], //saves order to this variable to use it later
         toPayAfterKassieren: 0, //total that is to Pay after you payed some payOrderedProducts but not all
-        insertedToPay:0, //saves the entered Total the waiter gets
-        visability:"invisible", //gets true to show button "kassieren" when he gets to the payOrderedProducts
-        dialogOpen:false, //toOpen Dialog
-        toPayOk:false,
-        dialogEditOpen:false,
-        product_toEdit:"",
-        EnteredNote:"",
-        amount_input:0
+        insertedToPay: 0, //saves the entered Total the waiter gets
+        visability: "invisible", //gets true to show button "kassieren" when he gets to the payOrderedProducts
+        dialogOpen: false, //toOpen Dialog
+        toPayOk: false,
+        dialogEditOpen: false,
+        product_toEdit: "",
+        EnteredNote: "",
+        amount_input: 0
 
     }
 
     componentDidMount() {
-        console.log(this.props.match.params.table_nr);
+        // //console.log(this.props.match.params.table_nr);
         this.setState({
             tisch_nr: this.props.match.params.table_nr
         })
         this.saveProduct_intoArray();
     }
 
-    saveNoteToState = (arr) =>{
+    saveNoteToState = (arr) => {
         this.setState({
-            note_data:arr
+            note_data: arr
         })
     }
 
-    saveProduct_intoArray = () =>{
+    saveProduct_intoArray = () => {
         var products_data = this.state.product_data;
         var array_product = this.state.products_converted;
         var i = 0;
         var length = products_data.length
-        for (i;i<length;i++){
-            var x = new Product(products_data[i].id,products_data[i].name,products_data[i].sizes_id,products_data[i].categories_id,products_data[i].available,products_data[i].price);
+        for (i; i < length; i++) {
+            var x = new Product(products_data[i].id, products_data[i].name, products_data[i].sizes_id, products_data[i].categories_id, products_data[i].available, products_data[i].price);
             array_product.push(x)
         }
-        console.log(array_product);
+        // //console.log(array_product);
         this.setState({
-            products_converted:array_product
+            products_converted: array_product
         })
     }
     openNewBestellung = () => {
-        if(this.state.order.length === 0){
+        if (this.state.order.length === 0) {
             this.setState({redirectToLink: "/loggedin/Order"})
         }
     }
-    showSubCategories = (id) =>{
-        console.log(id)
+    showSubCategories = (id) => {
+        // //console.log(id)
         this.setState({
-            showCategories : false,
+            showCategories: false,
             showSubCategories: true,
-            showProducts:false,
-            showPayProducts:false,
-            showToPayProducts:false,
-            categoriesID:id
+            showProducts: false,
+            showPayProducts: false,
+            showToPayProducts: false,
+            categoriesID: id
         })
     }
-    showProducts = (id) =>{
-        console.log(id)
+    showProducts = (id) => {
+        // //console.log(id)
         this.setState({
-            showCategories : false,
+            showCategories: false,
             showSubCategories: false,
-            showToPayProducts:false,
-            showPayProducts:false,
-            showProducts:true,
-            categoriesIDOld:this.state.categoriesID,
-            categoriesID:id
+            showToPayProducts: false,
+            showPayProducts: false,
+            showProducts: true,
+            categoriesIDOld: this.state.categoriesID,
+            categoriesID: id
         })
     }
-    backCategories = () =>{
+    backCategories = () => {
         this.setState({
-            showCategories : true,
-            showProducts:false,
-            showToPayProducts:false,
-            showPayProducts:false,
+            showCategories: true,
+            showProducts: false,
+            showToPayProducts: false,
+            showPayProducts: false,
             showSubCategories: false
         })
     }
-    onChangeInputAmount = (event) =>{
-        if(!isNaN(event.target.value)){
+    onChangeInputAmount = (event) => {
+        if (!isNaN(event.target.value)) {
             var num = parseInt(event.target.value)
-            console.log(num)
+            // //console.log(num)
             this.setState({
-                amount:num
+                amount: num
             })
 
         }
     }
-    onEnterRegisterProduct = (v) =>{
-        console.log("hey")
-        console.log(this.state.amount)
-        this.addProductToOrder(v,this.state.amount);
+    onEnterRegisterProduct = (v) => {
+        // //console.log("hey")
+        // //console.log(this.state.amount)
+        this.addProductToOrder(v, this.state.amount);
     }
-    deleteProductOutOrder = (v,amount) =>{
+    deleteProductOutOrder = (v, amount) => {
         let arr = this.state.order;
         let help = null;
         let pay = 0;
-        console.log(arr.length)
-        if(arr.length !== 0 ){
-            console.log("del")
-            for (let i = 0; i< arr.length; i++){
+        // //console.log(arr.length)
+        if (arr.length !== 0) {
+            // //console.log("del")
+            for (let i = 0; i < arr.length; i++) {
 
-                if(arr[i].id === v.id) {
+                if (arr[i].id === v.id) {
                     if (arr[i].amount === 1) {
                         arr.splice(i, i + 1)
                     } else {
                         help = arr[i];
                         arr[i].amount = arr[i].amount - amount;
                         arr[i].allPrice = arr[i].price * arr[i].amount
-                        let product_price = arr[i].price *  arr[i].amount;
+                        let product_price = arr[i].price * arr[i].amount;
                         pay += product_price;
                     }
                 }
@@ -193,146 +193,161 @@ class Order extends Component {
             }
 
             this.setState({
-                order:arr,
-                toPay:pay,
-                canPay:true
+                order: arr,
+                toPay: pay,
+                canPay: true
             })
-        }else{
-            console.log("del")
+        } else {
+            // //console.log("del")
             this.setState({
-                canPay:false
+                canPay: false
             })
         }
 
     }
 
-    showToPay = () =>{
-        if(this.state.canPay){
-            console.log("i wanna pay")
-            console.log(this.state.order)
+    showToPay = () => {
+        if (this.state.canPay) {
+            // //console.log("i wanna pay")
+            // //console.log(this.state.order)
             this.setState({
-                paying:true,
-                showCategories : false,
-                showProducts:false,
-                showOrderProducts:false,
-                showToPayProducts:true,
+                paying: true,
+                showCategories: false,
+                showProducts: false,
+                showOrderProducts: false,
+                showToPayProducts: true,
                 showSubCategories: false,
-                showPayProducts:true,
-                errorIsOpen:false,
-                order_old:this.state.order,
-                visability:"visible"
+                showPayProducts: true,
+                errorIsOpen: false,
+                order_old: this.state.order,
+                visability: "visible"
             })
-        }else{
+        } else {
             this.setState({
-                errorIsOpen:true
+                errorIsOpen: true
             })
         }
     }
-    addProductToOrder = (v,amount) =>{
+    addProductToOrder = (v, amount) => {
         let arr = this.state.order;
-        console.log(v)
-        console.log(arr)
+        // //console.log(v)
+        // //console.log(arr)
         let help = null;
         let pay = 0;
-        for (let i = 0; i< arr.length; i++){
+        for (let i = 0; i < arr.length; i++) {
 
-            if(arr[i].id === v.id){
-                 help = arr[i];
-                console.log(help)
-                console.log("amount", arr[i].amount + amount);
-                console.log("allPrice",arr[i].price *  arr[i].amount)
-                 arr[i].amount = arr[i].amount + amount;
-                arr[i].allPrice = arr[i].price *  arr[i].amount
+            if (arr[i].id === v.id) {
+                help = arr[i];
+                ////console.log(help)
+                ////console.log("amount", arr[i].amount + amount);
+                ////console.log("allPrice", arr[i].price * arr[i].amount)
+                arr[i].amount = arr[i].amount + amount;
+                arr[i].allPrice = arr[i].price * arr[i].amount
             }
-            let product_price = arr[i].price *  arr[i].amount;
+            let product_price = arr[i].price * arr[i].amount;
             pay += product_price;
         }
-        if(help === null){
-            if(v.amount !== 1){
-                console.log(amount)
-                let priceAll  = amount*v.price;
+        if (help === null) {
+            if (v.amount !== 1) {
+                ////console.log(amount)
+                let priceAll = amount * v.price;
                 arr.push({
-                    id: v.id, name: v.name, amount:amount,price: v.price, allPrice:priceAll
+                    id: v.id, name: v.name, amount: amount, price: v.price, allPrice: priceAll
                 })
-            }else{
+            } else {
                 arr.push({
-                    id: v.id, name: v.name, amount:1,price: v.price, allPrice: v.price
+                    id: v.id, name: v.name, amount: 1, price: v.price, allPrice: v.price
                 })
             }
 
-            pay+= v.price * amount;
+            pay += v.price * amount;
         }
-        console.log("pay1",this.state.canPay)
+        ////console.log("pay1", this.state.canPay)
         this.setState({
-            order:arr,
-            toPay:pay,
-            canPay:true,
-            amount:1
+            order: arr,
+            toPay: pay,
+            canPay: true,
+            amount: 1
         })
-        console.log("pay",this.state.canPay)
+        ////console.log("pay", this.state.canPay)
     }
-    addNoteToProduct = (product) =>{
-        console.log(this.state.EnteredNote)
-        console.log(product)
+    addNoteToProduct = (product) => {
         let notes = this.state.note_data;
-        console.log(notes)
         let order = this.state.order;
-        console.log(order)
         let i = 0;
         var counter = 0;
         let length = notes.length
         var index;
-        console.log(length)
-        if(length > 0){
-        for (i;i<length;i++){
-            for (var j = 0; j < order.length;j++){
-                if(product.id === order[j].id){
-                    if(order[j].amount > 1){
-                        order[j].amount--;
-                    }else{
-                        console.log("del")
-                        console.log(order[j])
-                        order.splice(j, j + 1)
-                    }
-                    console.log(notes[i])
-                    if(notes[i].product_id === product.id ){
-                        counter++;
-                        index = i;
-                        console.log("same NOte")
+        console.log(product)
+        if (length > 0) {
+            for (i; i < length; i++) {
+                for (var j = 0; j < order.length; j++) {
+                    if (product.id === order[j].id) {
+                        if (order[j].amount > 1) {
+                            order[j].amount--;
+                        } else {
+                            order.splice(j, j + 1)
+                        }
+                        if (notes[i].product_id === product.id) {
+                            counter++;
+                            index = i;
+                            console.log("same NOte")
+                        }
                     }
                 }
-            }
 
-        }
-        console.log(counter)
-        if(counter > 0){
-            if(notes[index].note === this.state.EnteredNote){
-                notes[index].amount++;
-                console.log(notes[index])
-            }else{
-                console.log(notes[index])
+            }
+            if (counter > 0) {
+                if (notes[index].note === this.state.EnteredNote) {
+                    notes[index].amount++;
+                    notes[index].allPrice = notes[index].price * notes[index].amount
+                } else {
+                    notes.push(
+                        {
+                            id: notes[notes.length - 1].id++,
+                            product_id: product.id,
+                            note: this.state.EnteredNote,
+                            amount: 1,
+                            amount_used: 0,
+                            price: product.price,
+                            allPrice: product.price * 1
+                        }
+                    )
+                }
+            } else {
+                console.log("newNote")
+                console.log(this.state.EnteredNote)
                 notes.push(
-                    {id:notes[notes.length-1].id++,product_id:product.id, note:this.state.EnteredNote,amount:1,amount_used:0}
+                    {
+                        id: notes[notes.length - 1].id++,
+                        product_id: product.id,
+                        note: this.state.EnteredNote,
+                        amount: 1,
+                        amount_used: 0,
+                        price: product.price,
+                        allPrice: product.price * 1
+                    }
                 )
             }
-        }else{
-            console.log("newNote")
-            notes.push(
-                {id:notes[notes.length-1].id++,product_id:product.id, note:this.state.EnteredNote,amount:1,amount_used:0}
-            )
-        }
-        }else{
-            for (var j = 0; j < order.length;j++){
-                if(product.id === order[j].id){
-                    if(order[j].amount > 1){
+        } else {
+            for (var j = 0; j < order.length; j++) {
+                if (product.id === order[j].id) {
+                    if (order[j].amount > 1) {
                         order[j].amount--;
-                    }else{
+                    } else {
                         console.log("del")
-                        console.log(order[j])
                         order.splice(j, j + 1)
                     }
                     notes.push(
-                        {id: 1 ,product_id:product.id, note:this.state.EnteredNote,amount:1,amount_used:0}
+                        {
+                            id: 1,
+                            product_id: product.id,
+                            note: this.state.EnteredNote,
+                            amount: 1,
+                            amount_used: 0,
+                            price: product.price,
+                            allPrice: product.price * 1
+                        }
                     )
                 }
             }
@@ -345,51 +360,51 @@ class Order extends Component {
             dialogEditOpen: false,
             EnteredNote: ""
         })
-        console.log("one product")
+
     }
-    addNoteToProducts = () =>{
-        console.log("more products_converted")
+    addNoteToProducts = () => {
+        //console.log("more products_converted")
     }
 
-    addProductToPayOrder = (v,amount) =>{
+    addProductToPayOrder = (v, amount) => {
         let wannaPay = this.state.order;
         let arr = this.state.toPayProducts;
         let help = null;
         let pay = 0;
-        console.log(arr)
-        console.log(wannaPay)
-        console.log("asasas",wannaPay.length)
-        for (let i = 0; i< arr.length; i++) {
+        //console.log(arr)
+        //console.log(wannaPay)
+        //console.log("asasas", wannaPay.length)
+        for (let i = 0; i < arr.length; i++) {
 
-            if(arr[i].id === v.id){
-                console.log(arr[i])
-                if(wannaPay.length===0){
-                    console.log(wannaPay)
-                    console.log("first time")
-                    if(arr[i].amount === 1){
+            if (arr[i].id === v.id) {
+                //console.log(arr[i])
+                if (wannaPay.length === 0) {
+                    //console.log(wannaPay)
+                    //console.log("first time")
+                    if (arr[i].amount === 1) {
                         arr[i].amount = arr[i].amount - amount;
                         arr[i].allPrice = arr[i].price * arr[i].amount
                         wannaPay.push({
                             id: v.id, name: v.name, amount: 1, price: v.price, allPrice: v.price
                         })
                         arr.splice(i, i + 1)
-                    }else {
+                    } else {
                         arr[i].amount = arr[i].amount - amount;
                         arr[i].allPrice = arr[i].price * arr[i].amount
                         wannaPay.push({
                             id: v.id, name: v.name, amount: 1, price: v.price, allPrice: v.price
                         })
                     }
-                    console.log(wannaPay)
-                }else {
+                    //console.log(wannaPay)
+                } else {
                     let length = wannaPay.length;
                     for (let j = 0; j < length; j++) {
-                        console.log(wannaPay)
-                        console.log(wannaPay[j].id)
-                        console.log(v.id)
+                        //console.log(wannaPay)
+                        //console.log(wannaPay[j].id)
+                        //console.log(v.id)
                         if (wannaPay[j].id === v.id) {
                             help = wannaPay[j];
-                            console.log("FOUND")
+                            //console.log("FOUND")
                             if (arr[i].amount === 1) {
                                 wannaPay[j].amount = wannaPay[j].amount + amount;
                                 wannaPay[j].allPrice = wannaPay[j].price * wannaPay[j].amount
@@ -402,9 +417,9 @@ class Order extends Component {
                             }
                         }
                     }
-                    if(help == null){
-                        console.log(wannaPay)
-                        console.log("not first, but after that")
+                    if (help == null) {
+                        //console.log(wannaPay)
+                        //console.log("not first, but after that")
                         arr[i].amount = arr[i].amount - amount;
                         arr[i].allPrice = arr[i].price * arr[i].amount
                         wannaPay.push({
@@ -413,50 +428,49 @@ class Order extends Component {
                     }
                 }
             }
-            console.log(arr)
-            console.log(wannaPay)
+            //console.log(arr)
+            //console.log(wannaPay)
             this.getTotalOfToPay();
             this.setState({
-                order:wannaPay,
-                toPayProducts:arr
+                order: wannaPay,
+                toPayProducts: arr
             })
 
         }
 
     }
-    addAllProductsToPay = () =>{
-        console.log(this.state.order_old)
+    addAllProductsToPay = () => {
+        //console.log(this.state.order_old)
         let arr = this.state.order_old;
-            let toPay = arr;
-            arr = [];
-            this.setState({
-                toPayProducts:toPay,
-                order:arr
-            })
+        let toPay = arr;
+        arr = [];
+        this.setState({
+            toPayProducts: toPay,
+            order: arr
+        })
 
     }
 
 
-
-    addProductToPay = (v,amount) =>{
+    addProductToPay = (v, amount) => {
         let arr = this.state.order;
         let wannaPay = this.state.toPayProducts;
         let help = null;
         let pay = 0;
-        for (let i = 0; i< arr.length; i++) {
+        for (let i = 0; i < arr.length; i++) {
 
-            if(arr[i].id === v.id){
-                if(wannaPay.length===0){
-                    console.log(wannaPay)
-                    console.log("first time")
-                    if(arr[i].amount === 1){
+            if (arr[i].id === v.id) {
+                if (wannaPay.length === 0) {
+                    //console.log(wannaPay)
+                    //console.log("first time")
+                    if (arr[i].amount === 1) {
                         arr[i].amount = arr[i].amount - amount;
                         arr[i].allPrice = arr[i].price * arr[i].amount
                         wannaPay.push({
                             id: v.id, name: v.name, amount: 1, price: v.price, allPrice: v.price
                         })
                         arr.splice(i, i + 1)
-                    }else {
+                    } else {
                         arr[i].amount = arr[i].amount - amount;
                         arr[i].allPrice = arr[i].price * arr[i].amount
                         wannaPay.push({
@@ -464,16 +478,16 @@ class Order extends Component {
                         })
                     }
                     this.getTotalOfToPay();
-                    console.log(wannaPay)
-                }else {
+                    //console.log(wannaPay)
+                } else {
                     let length = wannaPay.length;
                     for (let j = 0; j < length; j++) {
-                        console.log(wannaPay)
-                        console.log(wannaPay[j].id)
-                        console.log(v.id)
+                        //console.log(wannaPay)
+                        //console.log(wannaPay[j].id)
+                        //console.log(v.id)
                         if (wannaPay[j].id === v.id) {
                             help = wannaPay[j];
-                            console.log("FOUND")
+                            //console.log("FOUND")
                             if (arr[i].amount === 1) {
                                 wannaPay[j].amount = wannaPay[j].amount + amount;
                                 wannaPay[j].allPrice = wannaPay[j].price * wannaPay[j].amount
@@ -486,52 +500,52 @@ class Order extends Component {
                             }
                         }
                     }
-                    if(help == null){
-                            console.log(wannaPay)
-                            console.log("not first, but after that")
-                            arr[i].amount = arr[i].amount - amount;
-                            arr[i].allPrice = arr[i].price * arr[i].amount
-                            wannaPay.push({
-                                id: v.id, name: v.name, amount: 1, price: v.price, allPrice: v.price
-                            })
+                    if (help == null) {
+                        //console.log(wannaPay)
+                        //console.log("not first, but after that")
+                        arr[i].amount = arr[i].amount - amount;
+                        arr[i].allPrice = arr[i].price * arr[i].amount
+                        wannaPay.push({
+                            id: v.id, name: v.name, amount: 1, price: v.price, allPrice: v.price
+                        })
                     }
                 }
             }
-            console.log("helpME")
-            console.log(arr)
+            //console.log("helpME")
+            //console.log(arr)
             this.getTotalOfToPay();
-        this.setState({
-            order:arr,
-            toPayProducts:wannaPay
-        })
+            this.setState({
+                order: arr,
+                toPayProducts: wannaPay
+            })
 
         }
     }
 
-    backSubCategories = () =>{
+    backSubCategories = () => {
         this.setState({
-            showCategories : false,
+            showCategories: false,
             showSubCategories: true,
-            showProducts:false,
-            categoriesID:this.state.categoriesIDOld
+            showProducts: false,
+            categoriesID: this.state.categoriesIDOld
         })
     }
     handleClose = (event, reason) => {
         if (reason === 'clickaway') {
             this.setState({
-                errorIsOpen:false
+                errorIsOpen: false
             })
         }
     };
 
-    openError = () =>{
+    openError = () => {
         this.setState({
-            errorIsOpen:true
+            errorIsOpen: true
         })
     }
-    handleDialogOpen = () =>{
+    handleDialogOpen = () => {
         this.setState({
-            dialogOpen:true
+            dialogOpen: true
         })
     }
     handleDialogClose = () => {
@@ -539,57 +553,57 @@ class Order extends Component {
             dialogOpen: false
         })
     }
-    handleDialogEditClose = () =>{
+    handleDialogEditClose = () => {
         this.setState({
             dialogEditOpen: false
         })
     }
-    getTotalOfToPay= () =>{
-            let order = this.state.toPayProducts;
-            let total = 0;
-            if(order.length !== 0){
-                for (let i = 0; i< order.length;i++){
-                    total+= order[i].price * order[i].amount;
-                }
-                console.log("tatsats",total)
-                let toPay = this.state.toPay;
-                let help = toPay-total
-                this.setState({
-                    toPayAfterKassieren: total
-                });
-            }else{
-                this.setState({
-                    toPayAfterKassieren: 0
-                });
-            }
-        }
-    paySelectedProducts = () =>{
+    getTotalOfToPay = () => {
         let order = this.state.toPayProducts;
         let total = 0;
-        if(order.length !== 0){
-            for (let i = 0; i< order.length;i++){
-                total+= order[i].price * order[i].amount;
+        if (order.length !== 0) {
+            for (let i = 0; i < order.length; i++) {
+                total += order[i].price * order[i].amount;
             }
-            console.log(total)
+            //console.log("tatsats", total)
             let toPay = this.state.toPay;
-            let help = toPay-total
+            let help = toPay - total
             this.setState({
-                toPayAfterKassieren:total,
-                toPayAfterPayed:help
+                toPayAfterKassieren: total
+            });
+        } else {
+            this.setState({
+                toPayAfterKassieren: 0
+            });
+        }
+    }
+    paySelectedProducts = () => {
+        let order = this.state.toPayProducts;
+        let total = 0;
+        if (order.length !== 0) {
+            for (let i = 0; i < order.length; i++) {
+                total += order[i].price * order[i].amount;
+            }
+            //console.log(total)
+            let toPay = this.state.toPay;
+            let help = toPay - total
+            this.setState({
+                toPayAfterKassieren: total,
+                toPayAfterPayed: help
             })
 
             this.handleDialogOpen();
 
 
-        }else{
+        } else {
             this.openError();
         }
     }
     OpenDialogWithData = (product) => {
         this.setState({
-            product_toEdit:product,
-            dialogEditOpen:true,
-            amount_input:product.amount
+            product_toEdit: product,
+            dialogEditOpen: true,
+            amount_input: product.amount
         })
     }
 
@@ -603,8 +617,9 @@ class Order extends Component {
                 <Row className={"mt-1text-center"}>
                     <Col className={"m-2 mt-4 col-4 mr-2 text-center d-flex justify-content-center"}> <Logout/> Logout
                     </Col>
-                    <Col className={"mt-3  text-center d-flex justify-content-center"} >
-                        <Avatar onClick={() => this.openNewBestellung()}>{this.props.match.params.table_nr}</Avatar></Col>
+                    <Col className={"mt-3  text-center d-flex justify-content-center"}>
+                        <Avatar
+                            onClick={() => this.openNewBestellung()}>{this.props.match.params.table_nr}</Avatar></Col>
                     <Col className={"m-2 mt-3 mr-2 col-4 text-center d-flex justify-content-center"}>
                         <Avatar>{this.state.waiter_name.substring(0, 1)}</Avatar>
                         <div className={"waiter_name"}> Kellner {this.state.waiter_name} </div>
@@ -678,17 +693,18 @@ class Order extends Component {
                     EnteredNote={this.state.EnteredNote}
                     amount_input={this.state.amount_input}
                 />
-                <Dialog open={this.state.dialogOpen} fullWidth={true} maxWidth = {'xs'}  onClose={this.handleDialogClose} aria-labelledby="form-dialog-title">
+                <Dialog open={this.state.dialogOpen} fullWidth={true} maxWidth={'xs'} onClose={this.handleDialogClose}
+                        aria-labelledby="form-dialog-title">
                     <DialogTitle id="form-dialog-title">Kassieren</DialogTitle>
                     <DialogContent>
                         <DialogContentText>
                             Wechselgeldrechner
                         </DialogContentText>
                         <div className={"w-100"}>
-                            <table className={"table_border w-100"} >
+                            <table className={"table_border w-100"}>
                                 <tbody>
                                 <tr>
-                                    <td>Zu zahlen: </td>
+                                    <td>Zu zahlen:</td>
                                     <td>
                                         <span>{this.state.toPayAfterKassieren} €</span>
                                     </td>
@@ -696,11 +712,14 @@ class Order extends Component {
                                         <span>Bezahlt: </span>
                                     </td>
                                     <td>
-                                        <input ref={"input"} type="number" className={"input_width_order"} name={"insertedToPay"} onChange={this.onChangeInput} autoFocus={true} onKeyDown={this.onEnterDisabledFocus} data-mini="true" placeholder="20,00 €" />
+                                        <input ref={"input"} type="number" className={"input_width_order"}
+                                               name={"insertedToPay"} onChange={this.onChangeInput} autoFocus={true}
+                                               onKeyDown={this.onEnterDisabledFocus} data-mini="true"
+                                               placeholder="20,00 €"/>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>Zurück </td>
+                                    <td>Zurück</td>
                                     <td>
                                         <span><b>{this.getBackIfEnteredToWechselGeld()} €</b></span>
                                     </td>
@@ -708,7 +727,9 @@ class Order extends Component {
                                         <span>Zielbetrag: </span>
                                     </td>
                                     <td>
-                                        <input type="text" className={"input_width_order"}  value={this.state.toPayAfterKassieren + " €"} data-mini="true" disabled={true} placeholder="0,00 €" />
+                                        <input type="text" className={"input_width_order"}
+                                               value={this.state.toPayAfterKassieren + " €"} data-mini="true"
+                                               disabled={true} placeholder="0,00 €"/>
                                     </td>
                                 </tr>
                                 </tbody>
@@ -720,7 +741,8 @@ class Order extends Component {
                         <Button onClick={this.handleDialogClose} color="primary">
                             Abbrechen
                         </Button>
-                        <Button onClick={this.handleDialogKassieren} disabled={this.canPressKassieren()} color="primary">
+                        <Button onClick={this.handleDialogKassieren} disabled={this.canPressKassieren()}
+                                color="primary">
                             Kassieren
                         </Button>
                     </DialogActions>
@@ -734,91 +756,92 @@ class Order extends Component {
                         <PrintSharpIcon/>
                     </Col>
                     <Col className={"mt-3 col-2 text-center d-flex justify-content-center"}>
-                        <LocalAtmIcon   onClick={this.showToPay}/>
+                        <LocalAtmIcon onClick={this.showToPay}/>
                     </Col>
                     <Col className={"m-3 col-3 text-center d-flex justify-content-center"}>
-                        <div> {this.state.toPay + " "} <EuroIcon /> </div>
+                        <div> {this.state.toPay + " "} <EuroIcon/></div>
                     </Col>
                 </Row>
 
             </div>
         )
     }
-    onChangeInput = (e) =>{
+
+    onChangeInput = (e) => {
         let value = e.target.value;
         this.setState({
-            [e.target.name]:value
+            [e.target.name]: value
         })
     }
-    round = (wert, dez)  =>{
+    round = (wert, dez) => {
         wert = parseFloat(wert);
         if (!wert) return 0;
         dez = parseInt(dez);
-        if (!dez) dez=0;
+        if (!dez) dez = 0;
 
-        var umrechnungsfaktor = Math.pow(10,dez);
+        var umrechnungsfaktor = Math.pow(10, dez);
 
         return Math.round(wert * umrechnungsfaktor) / umrechnungsfaktor;
     }
-    onEnterDisabledFocus = (e) =>{
+    onEnterDisabledFocus = (e) => {
         if (e.key === 'Enter') {
-            let help= this.state.insertedToPay-this.state.toPayAfterKassieren;
-            if(help >= 0){
+            let help = this.state.insertedToPay - this.state.toPayAfterKassieren;
+            if (help >= 0) {
                 this.refs.input.blur()
             }
 
         }
     }
-    getBackIfEnteredToWechselGeld = () =>{
-        if(this.state.insertedToPay !== 0){
-            let help= this.state.insertedToPay-this.state.toPayAfterKassieren;
-            if(help >= 0){
-                return this.round(help,2);
-            }else{
+    getBackIfEnteredToWechselGeld = () => {
+        if (this.state.insertedToPay !== 0) {
+            let help = this.state.insertedToPay - this.state.toPayAfterKassieren;
+            if (help >= 0) {
+                return this.round(help, 2);
+            } else {
                 return "Zu wenig"
             }
 
-        }else{
+        } else {
             return "?"
         }
     }
-    canPressKassieren = () =>{
-        if(this.state.insertedToPay !== 0){
-            let help= this.state.insertedToPay-this.state.toPayAfterKassieren;
-            if(help >= 0){
+    canPressKassieren = () => {
+        if (this.state.insertedToPay !== 0) {
+            let help = this.state.insertedToPay - this.state.toPayAfterKassieren;
+            if (help >= 0) {
                 return false
             }
-        }else{
+        } else {
             return true;
         }
     }
-    handleDialogKassieren = () =>{
-        if(this.state.insertedToPay !== 0){
-            let help= this.state.insertedToPay-this.state.toPayAfterKassieren;
-            if(help >= 0){
+    handleDialogKassieren = () => {
+        if (this.state.insertedToPay !== 0) {
+            let help = this.state.insertedToPay - this.state.toPayAfterKassieren;
+            if (help >= 0) {
                 this.handleDialogClose();
-                if(this.state.order.length !== 0){
+                if (this.state.order.length !== 0) {
                     this.setState({
-                        toPayProducts:[],
-                        toPay:this.state.toPayAfterPayed,
-                        insertedToPay:0,
-                        toPayAfterKassieren:0
+                        toPayProducts: [],
+                        toPay: this.state.toPayAfterPayed,
+                        insertedToPay: 0,
+                        toPayAfterKassieren: 0
                     })
-                }else{
+                } else {
                     this.setState({
-                        toPayProducts:[],
-                        toPay:0,
-                        insertedToPay:0,
-                        visability:"invisible",
-                        showOrderProducts:true,
-                        toPayAfterKassieren:0
+                        toPayProducts: [],
+                        toPay: 0,
+                        insertedToPay: 0,
+                        visability: "invisible",
+                        showOrderProducts: true,
+                        toPayAfterKassieren: 0
                     })
                     this.backCategories();
                 }
 
 
             }
-        }else{
+        } else {
 
         }
     }

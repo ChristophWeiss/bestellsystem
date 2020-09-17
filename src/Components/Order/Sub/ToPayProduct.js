@@ -12,7 +12,7 @@ import "./orderProductStyle.css"
 
 class ToPayProduct extends Component {
     render() {
-        console.log(this.props.showToPayProducts)
+        //console.log(this.props.showToPayProducts)
         if (!this.props.showToPayProducts) { // Prop: The current step
             return null
         }
@@ -27,7 +27,7 @@ class ToPayProduct extends Component {
         }
     }
     getProductsToPay = () =>{
-        console.log(this.props.toPayProducts.length)
+        //console.log(this.props.toPayProducts.length)
 
         let data = [];
 

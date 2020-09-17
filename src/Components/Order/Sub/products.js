@@ -13,7 +13,7 @@ class products extends Component {
 
 
     render() {
-        console.log(this.props.showProducts)
+       //console.log(this.props.showProducts)
         if (!this.props.showProducts) { // Prop: The current step
             return null
         }
@@ -29,7 +29,7 @@ class products extends Component {
 
     }
     getProdcuts = () => {
-        console.log(this.props.products.length)
+        ///console.log(this.props.products.length)
             let length = this.props.products.length;
             let data = [];
 

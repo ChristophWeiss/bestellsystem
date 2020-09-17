@@ -20,16 +20,17 @@ class OrderProdcuts extends Component {
             return null
         }
         return (
-                this.getOrderProducts()
+            this.getOrderProducts()
         );
     }
-    getOrderProducts = () =>{
-        console.log(this.props.order.length)
+
+    getOrderProducts = () => {
+        //console.log(this.props.order.length)
 
         let data = [];
         data.push(
             <div>
-                <ListItem key={"back"} >
+                <ListItem key={"back"}>
                     <ListItemIcon>
                         <ImportContactsIcon/>
                     </ListItemIcon>
@@ -38,39 +39,39 @@ class OrderProdcuts extends Component {
                 <Divider/>
             </div>
         )
-        if(this.props.order.length === 0 && this.props.notes.length === 0){
+        if (this.props.order.length === 0 && this.props.notes.length === 0) {
             data.push(
-            <ListItem key={"back"} >
-                <ListItemIcon>
-                    <FastfoodIcon/>
-                </ListItemIcon>
-                <ListItemText primary={"Noch keine Produkte hinzugefügt"}/>
-            </ListItem>
+                <ListItem key={"back"}>
+                    <ListItemIcon>
+                        <FastfoodIcon/>
+                    </ListItemIcon>
+                    <ListItemText primary={"Noch keine Produkte hinzugefügt"}/>
+                </ListItem>
             )
         }
 
 
-    var note = this.props.notes
-        console.log(this.props.order.length)
+        var note = this.props.notes
+        //console.log(this.props.order.length)
 
-        if(this.props.order.length === 0){
+        if (this.props.order.length === 0) {
 
-            note.map((n,i) => {
-                console.log(n)
-                for (var j = 0; j < this.props.products.length; j++){
-                    if(this.props.products[j].id === n.product_id){
+            note.map((n, i) => {
+                //console.log(n)
+                for (var j = 0; j < this.props.products.length; j++) {
+                    if (this.props.products[j].id === n.product_id) {
                         var v = this.props.products[j];
-                        console.log(v)
+                        //console.log(v)
                     }
                 }
                 data.push(
-                    <ListItem key={i} button >
-                        <ListItemIcon onClick={() => this.props.deleteFromOrder(v,1)}>
-                            <FastfoodIcon />
+                    <ListItem key={i} button>
+                        <ListItemIcon onClick={() => this.props.deleteFromOrder(v, 1)}>
+                            <FastfoodIcon/>
                         </ListItemIcon>
                         <ListItemText
-                            onClick={() => this.props.deleteFromOrder(v,1)}
-                            primary={n.amount +  "x " + v.name } mx="1rem"
+                            onClick={() => this.props.deleteFromOrder(v, 1)}
+                            primary={n.amount + "x " + v.name} mx="1rem"
                             secondary={
                                 <React.Fragment>
                                     {n.note}
@@ -78,104 +79,104 @@ class OrderProdcuts extends Component {
                             }
                         />
                         <div className={""} onClick={() => this.props.showEditDialog(v)}>
-                            <MessageIcon />
+                            <MessageIcon/>
                         </div>
                         <div className={"line_between_text"}
-                             onClick={() => this.props.deleteFromOrder(v,1)}>
+                             onClick={() => this.props.deleteFromOrder(v, 1)}>
                             {v.price} €
                         </div>
-                        <ListItemSecondaryAction  mx="1rem"
-                                                  onClick={() => this.props.deleteFromOrder(v,1)}
+                        <ListItemSecondaryAction mx="1rem"
+                                                 onClick={() => this.props.deleteFromOrder(v, 1)}
                         >
                             {v.allPrice} €
                         </ListItemSecondaryAction>
                     </ListItem>)
             })
         }
-        this.props.order.map( (v,i) => {
-            if(note.length > 0){
-                note.map((n,j) =>{
-                    console.log("wait", v,"help", n)
+        this.props.order.map((v, i) => {
+            if (note.length > 0) {
+                note.map((n, j) => {
+                    //console.log("wait", v,"help", n)
 
-                    if(n.product_id == v.id){
-                        console.log(n)
-                        console.log(v)
-                        console.log("note")
-                            console.log("not used")
-                            data.push(
-                                <ListItem key={i} button >
-                                    <ListItemIcon onClick={() => this.props.deleteFromOrder(v,1)}>
-                                        <FastfoodIcon />
-                                    </ListItemIcon>
-                                    <ListItemText
-                                        onClick={() => this.props.deleteFromOrder(v,1)}
-                                        primary={n.amount +  "x " + v.name } mx="1rem"
-                                        secondary={
-                                            <React.Fragment>
-                                                {n.note}
-                                            </React.Fragment>
-                                        }
-                                    />
-                                    <div className={""} onClick={() => this.props.showEditDialog(v)}>
-                                        <MessageIcon />
-                                    </div>
-                                    <div className={"line_between_text"}
-                                         onClick={() => this.props.deleteFromOrder(v,1)}>
-                                        {v.price} €
-                                    </div>
-                                    <ListItemSecondaryAction  mx="1rem"
-                                                              onClick={() => this.props.deleteFromOrder(v,1)}
-                                    >
-                                        {v.allPrice} €
-                                    </ListItemSecondaryAction>
-                                </ListItem>
-                            )
-                            //note[j].amount_used = n.amount;
-                            console.log("used")
-                            data.push(
-                                <ListItem key={i} button >
-                                    <ListItemIcon onClick={() => this.props.deleteFromOrder(v,1)}>
-                                        <FastfoodIcon />
-                                    </ListItemIcon>
-                                    <ListItemText
-                                        onClick={() => this.props.deleteFromOrder(v,1)}
-                                        primary={v.amount +  "x " + v.name } mx="1rem"
-                                    />
-                                    <div className={""} onClick={() => this.props.showEditDialog(v)}>
-                                        <MessageIcon />
-                                    </div>
-                                    <div className={"line_between_text"}
-                                         onClick={() => this.props.deleteFromOrder(v,1)}>
-                                        {v.price} €
-                                    </div>
-                                    <ListItemSecondaryAction  mx="1rem"
-                                                              onClick={() => this.props.deleteFromOrder(v,1)}
-                                    >
-                                        {v.allPrice} €
-                                    </ListItemSecondaryAction>
-                                </ListItem>
-                            )
-
-                    }else{
-                        console.log("no note")
+                    if (n.product_id == v.id) {
+                        //console.log(n)
+                        //console.log(v)
+                        //console.log("note")
+                        //console.log("not used")
                         data.push(
-                            <ListItem key={i} button >
-                                <ListItemIcon onClick={() => this.props.deleteFromOrder(v,1)}>
-                                    <FastfoodIcon />
+                            <ListItem key={i} button>
+                                <ListItemIcon onClick={() => this.props.deleteFromOrder(v, 1)}>
+                                    <FastfoodIcon/>
                                 </ListItemIcon>
                                 <ListItemText
-                                    onClick={() => this.props.deleteFromOrder(v,1)}
-                                    primary={v.amount +  "x " + v.name } mx="1rem"
+                                    onClick={() => this.props.deleteFromOrder(v, 1)}
+                                    primary={n.amount + "x " + v.name} mx="1rem"
+                                    secondary={
+                                        <React.Fragment>
+                                            {n.note}
+                                        </React.Fragment>
+                                    }
                                 />
                                 <div className={""} onClick={() => this.props.showEditDialog(v)}>
-                                    <MessageIcon />
+                                    <MessageIcon/>
                                 </div>
                                 <div className={"line_between_text"}
-                                     onClick={() => this.props.deleteFromOrder(v,1)}>
+                                     onClick={() => this.props.deleteFromOrder(v, 1)}>
+                                    {n.price} €
+                                </div>
+                                <ListItemSecondaryAction mx="1rem"
+                                                         onClick={() => this.props.deleteFromOrder(v, 1)}
+                                >
+                                    {n.allPrice} €
+                                </ListItemSecondaryAction>
+                            </ListItem>
+                        )
+                        if (j == 0) {
+                            data.push(
+                                <ListItem key={i} button>
+                                    <ListItemIcon onClick={() => this.props.deleteFromOrder(v, 1)}>
+                                        <FastfoodIcon/>
+                                    </ListItemIcon>
+                                    <ListItemText
+                                        onClick={() => this.props.deleteFromOrder(v, 1)}
+                                        primary={v.amount + "x " + v.name} mx="1rem"
+                                    />
+                                    <div className={""} onClick={() => this.props.showEditDialog(v)}>
+                                        <MessageIcon/>
+                                    </div>
+                                    <div className={"line_between_text"}
+                                         onClick={() => this.props.deleteFromOrder(v, 1)}>
+                                        {v.price} €
+                                    </div>
+                                    <ListItemSecondaryAction mx="1rem"
+                                                             onClick={() => this.props.deleteFromOrder(v, 1)}
+                                    >
+                                        {v.allPrice} €
+                                    </ListItemSecondaryAction>
+                                </ListItem>
+                            )
+                        }
+
+                    } else {
+                        console.log("no note")
+                        data.push(
+                            <ListItem key={i} button>
+                                <ListItemIcon onClick={() => this.props.deleteFromOrder(v, 1)}>
+                                    <FastfoodIcon/>
+                                </ListItemIcon>
+                                <ListItemText
+                                    onClick={() => this.props.deleteFromOrder(v, 1)}
+                                    primary={v.amount + "x " + v.name} mx="1rem"
+                                />
+                                <div className={""} onClick={() => this.props.showEditDialog(v)}>
+                                    <MessageIcon/>
+                                </div>
+                                <div className={"line_between_text"}
+                                     onClick={() => this.props.deleteFromOrder(v, 1)}>
                                     {v.price} €
                                 </div>
-                                <ListItemSecondaryAction  mx="1rem"
-                                                          onClick={() => this.props.deleteFromOrder(v,1)}
+                                <ListItemSecondaryAction mx="1rem"
+                                                         onClick={() => this.props.deleteFromOrder(v, 1)}
                                 >
                                     {v.allPrice} €
                                 </ListItemSecondaryAction>
@@ -184,32 +185,32 @@ class OrderProdcuts extends Component {
                     }
 
                 })
-            }else{
+            } else {
                 data.push(
-                    <ListItem key={i} button >
-                        <ListItemIcon onClick={() => this.props.deleteFromOrder(v,1)}>
-                            <FastfoodIcon />
+                    <ListItem key={i} button>
+                        <ListItemIcon onClick={() => this.props.deleteFromOrder(v, 1)}>
+                            <FastfoodIcon/>
                         </ListItemIcon>
                         <ListItemText
-                            onClick={() => this.props.deleteFromOrder(v,1)}
-                            primary={v.amount +  "x " + v.name } mx="1rem"
+                            onClick={() => this.props.deleteFromOrder(v, 1)}
+                            primary={v.amount + "x " + v.name} mx="1rem"
                         />
                         <div className={""} onClick={() => this.props.showEditDialog(v)}>
-                            <MessageIcon />
+                            <MessageIcon/>
                         </div>
                         <div className={"line_between_text"}
-                             onClick={() => this.props.deleteFromOrder(v,1)}>
+                             onClick={() => this.props.deleteFromOrder(v, 1)}>
                             {v.price} €
                         </div>
-                        <ListItemSecondaryAction  mx="1rem"
-                                                  onClick={() => this.props.deleteFromOrder(v,1)}
+                        <ListItemSecondaryAction mx="1rem"
+                                                 onClick={() => this.props.deleteFromOrder(v, 1)}
                         >
                             {v.allPrice} €
                         </ListItemSecondaryAction>
                     </ListItem>
                 )
             }
-            })
+        })
 
         return data;
     }
