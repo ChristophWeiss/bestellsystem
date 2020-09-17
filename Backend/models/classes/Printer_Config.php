@@ -106,7 +106,7 @@ class Printer_Config extends DatabaseTable implements JsonSerializable
      */
     protected function _insert()
     {
-        $sql = 'INSERT INTO printerConfig (description,ip_address)'
+        $sql = 'INSERT INTO printer_config (description,ip_address)'
             . 'VALUES (:description,:ip_address)';
         $query = Database::getDB()->prepare($sql);
         $query->execute($this->toArray(false));
@@ -120,7 +120,7 @@ class Printer_Config extends DatabaseTable implements JsonSerializable
      */
     protected function _update()
     {
-        $sql = "UPDATE printerConfig SET id=:id, description=:description,ip_address=:ip_address
+        $sql = "UPDATE printer_config SET id=:id, description=:description,ip_address=:ip_address
             WHERE id=:id";
 
         $query = Database::getDB()->prepare($sql);
