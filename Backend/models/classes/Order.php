@@ -1,14 +1,16 @@
 <?php
 
 /**
- * Class BS_Printer_Config
+ * Class Order
  * @author Christoph Weiss
  */
-class BS_Printer_Config extends DatabaseTable implements JsonSerializable
+class Order extends DatabaseTable implements JsonSerializable
 {
     private $id;
-    private $description;
-    private $ip_address;
+    private $date;
+    private $state_id;
+    private $users_id;
+    private $table_nr;
 
     /**
      * @return mixed
@@ -29,39 +31,72 @@ class BS_Printer_Config extends DatabaseTable implements JsonSerializable
     /**
      * @return mixed
      */
-    public function getDescription()
+    public function getDate()
     {
-        return $this->description;
+        return $this->date;
     }
 
     /**
-     * @param mixed $description
+     * @param mixed $date
      */
-    public function setDescription($description)
+    public function setDate($date)
     {
-        $this->description = $description;
+        $this->date = $date;
     }
 
     /**
      * @return mixed
      */
-    public function getIpAddress()
+    public function getStateId()
     {
-        return $this->ip_address;
+        return $this->state_id;
     }
 
     /**
-     * @param mixed $ip_address
+     * @param mixed $state_id
      */
-    public function setIpAddress($ip_address)
+    public function setStateId($state_id)
     {
-        $this->ip_address = $ip_address;
+        $this->state_id = $state_id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUsersid()
+    {
+        return $this->users_id;
+    }
+
+    /**
+     * @param mixed $users_id
+     */
+    public function setUsersid($users_id)
+    {
+        $this->users_id = $users_id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTableNr()
+    {
+        return $this->table_nr;
+    }
+
+    /**
+     * @param mixed $table_nr
+     */
+    public function setTableNr($table_nr)
+    {
+        $this->table_nr = $table_nr;
     }
 
 
 
+
     /**
-     * BS_printerConfig constructor.
+     * Order constructor.
      * @param array $data
      */
 
@@ -107,8 +142,8 @@ class BS_Printer_Config extends DatabaseTable implements JsonSerializable
      */
     protected function _insert()
     {
-        $sql = 'INSERT INTO BS_printerConfig (description,ip_address)'
-            . 'VALUES (:description,:ip_address)';
+        $sql = 'INSERT INTO `order` (date,state_id,users_id,table_nr)'
+            . 'VALUES (:date,:state_id,:users_id,:table_nr)';
         $query = Database::getDB()->prepare($sql);
         $query->execute($this->toArray(false));
 
@@ -121,7 +156,7 @@ class BS_Printer_Config extends DatabaseTable implements JsonSerializable
      */
     protected function _update()
     {
-        $sql = "UPDATE BS_printerConfig SET id=:id, description=:description,ip_address=:ip_address
+        $sql = "UPDATE `order` SET id=:id, date=:date,state_id=:state_id,users_id=:users_id,table_nr=:table_nr
             WHERE id=:id";
 
         $query = Database::getDB()->prepare($sql);

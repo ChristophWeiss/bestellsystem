@@ -4,17 +4,17 @@ ini_set("display_errors", 1);
 
 include './classes/DatabaseTable.php';
 include './Database/dbconn.php';
-include "./classes/BS_Cart.php";
-include "./classes/BS_Categories.php";
-include "./classes/BS_Extras.php";
-include "./classes/BS_Order.php";
-include "./classes/BS_Printer_Config.php";
-include "./classes/BS_Products.php";
-include "./classes/BS_Role.php";
-include "./classes/BS_Sizes.php";
-include "./classes/BS_State.php";
-include "./classes/BS_Subcategories.php";
-include "./classes/BS_Users.php";
+include "./classes/Cart.php";
+include "./classes/Categories.php";
+include "./classes/Extras.php";
+include "./classes/Order.php";
+include "./classes/Printer_Config.php";
+include "./classes/Products.php";
+include "./classes/Role.php";
+include "./classes/Sizes.php";
+include "./classes/State.php";
+include "./classes/Subcategories.php";
+include "./classes/Users.php";
 
 
 $ajax = new index();
@@ -26,6 +26,7 @@ if (isset($_GET['action'])) {
         "error" => "#876",
     ));
 }
+
 class index
 {
 
@@ -95,5 +96,9 @@ class index
             }
         }
 
+    }
+
+    public function test()
+    {
     }
 }

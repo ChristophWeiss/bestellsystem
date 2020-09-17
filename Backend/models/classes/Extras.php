@@ -1,13 +1,14 @@
 <?php
 
 /**
- * Class Role
+ * Class Extras
  * @author Christoph Weiss
  */
-class BS_Sizes extends DatabaseTable implements JsonSerializable
+class Extras extends DatabaseTable implements JsonSerializable
 {
     private $id;
     private $description;
+    private $price;
 
     /**
      * @return mixed
@@ -41,11 +42,26 @@ class BS_Sizes extends DatabaseTable implements JsonSerializable
         $this->description = $description;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getPrice()
+    {
+        return $this->price;
+    }
+
+    /**
+     * @param mixed $price
+     */
+    public function setPrice($price)
+    {
+        $this->price = $price;
+    }
 
 
 
     /**
-     * Sizes constructor.
+     * extras constructor.
      * @param array $data
      */
 
@@ -91,8 +107,8 @@ class BS_Sizes extends DatabaseTable implements JsonSerializable
      */
     protected function _insert()
     {
-        $sql = 'INSERT INTO BS_sizes (description)'
-            . 'VALUES (:description)';
+        $sql = 'INSERT INTO extras (description,price)'
+            . 'VALUES (:description,:price)';
         $query = Database::getDB()->prepare($sql);
         $query->execute($this->toArray(false));
 
@@ -105,7 +121,7 @@ class BS_Sizes extends DatabaseTable implements JsonSerializable
      */
     protected function _update()
     {
-        $sql = "UPDATE BS_sizes SET id=:id, description=:description
+        $sql = "UPDATE extras SET id=:id, description=:description,price=:price
             WHERE id=:id";
 
         $query = Database::getDB()->prepare($sql);

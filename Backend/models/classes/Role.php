@@ -1,16 +1,13 @@
 <?php
 
 /**
- * Class BS_Products
+ * Class Role
  * @author Christoph Weiss
  */
-class BS_Products extends DatabaseTable implements JsonSerializable
+class Role extends DatabaseTable implements JsonSerializable
 {
     private $id;
-    private $name;
-    private $sizes_id;
-    private $categories_id;
-    private $price;
+    private $description;
 
     /**
      * @return mixed
@@ -31,71 +28,22 @@ class BS_Products extends DatabaseTable implements JsonSerializable
     /**
      * @return mixed
      */
-    public function getName()
+    public function getDescription()
     {
-        return $this->name;
+        return $this->description;
     }
 
     /**
-     * @param mixed $name
+     * @param mixed $description
      */
-    public function setName($name)
+    public function setDescription($description)
     {
-        $this->name = $name;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getSizesId()
-    {
-        return $this->sizes_id;
-    }
-
-    /**
-     * @param mixed $sizes_id
-     */
-    public function setSizesId($sizes_id)
-    {
-        $this->sizes_id = $sizes_id;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getCategoriesId()
-    {
-        return $this->categories_id;
-    }
-
-    /**
-     * @param mixed $categories_id
-     */
-    public function setCategoriesId($categories_id)
-    {
-        $this->categories_id = $categories_id;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getPrice()
-    {
-        return $this->price;
-    }
-
-    /**
-     * @param mixed $price
-     */
-    public function setPrice($price)
-    {
-        $this->price = $price;
+        $this->description = $description;
     }
 
 
-
     /**
-     * BS_products constructor.
+     * Role constructor.
      * @param array $data
      */
 
@@ -141,8 +89,8 @@ class BS_Products extends DatabaseTable implements JsonSerializable
      */
     protected function _insert()
     {
-        $sql = 'INSERT INTO BS_products (name,sizes_id,categories_id,price)'
-            . 'VALUES (:name,:sizes_id,:categories_id,:price)';
+        $sql = 'INSERT INTO role (description)'
+            . 'VALUES (:description)';
         $query = Database::getDB()->prepare($sql);
         $query->execute($this->toArray(false));
 
@@ -155,7 +103,7 @@ class BS_Products extends DatabaseTable implements JsonSerializable
      */
     protected function _update()
     {
-        $sql = "UPDATE BS_products SET id=:id, name=:name,sizes_id=:sizes_id,categories_id=:categories_id,price=:price
+        $sql = "UPDATE role SET id=:id, description=:description
             WHERE id=:id";
 
         $query = Database::getDB()->prepare($sql);

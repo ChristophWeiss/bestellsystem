@@ -1,13 +1,15 @@
 <?php
 
 /**
- * Class BS_State
+ * Class _Users
  * @author Christoph Weiss
  */
-class BS_State extends DatabaseTable implements JsonSerializable
+class Users extends DatabaseTable implements JsonSerializable
 {
     private $id;
-    private $description;
+    private $username;
+    private $role_id;
+    private $password;
 
     /**
      * @return mixed
@@ -28,22 +30,56 @@ class BS_State extends DatabaseTable implements JsonSerializable
     /**
      * @return mixed
      */
-    public function getDescription()
+    public function getUsername()
     {
-        return $this->description;
+        return $this->username;
     }
 
     /**
-     * @param mixed $description
+     * @param mixed $username
      */
-    public function setDescription($description)
+    public function setUsername($username)
     {
-        $this->description = $description;
+        $this->username = $username;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRoleId()
+    {
+        return $this->role_id;
+    }
+
+    /**
+     * @param mixed $role_id
+     */
+    public function setRoleId($role_id)
+    {
+        $this->role_id = $role_id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPassword()
+    {
+        return $this->password;
+    }
+
+    /**
+     * @param mixed $password
+     */
+    public function setPassword($password)
+    {
+        $this->password = $password;
     }
 
 
+
+
     /**
-     * BS_state constructor.
+     * users constructor.
      * @param array $data
      */
 
@@ -89,8 +125,8 @@ class BS_State extends DatabaseTable implements JsonSerializable
      */
     protected function _insert()
     {
-        $sql = 'INSERT INTO BS_state (description)'
-            . 'VALUES (:description)';
+        $sql = 'INSERT INTO users (username,role_id,password)'
+            . 'VALUES (:username,:role_id,:password)';
         $query = Database::getDB()->prepare($sql);
         $query->execute($this->toArray(false));
 
@@ -103,7 +139,7 @@ class BS_State extends DatabaseTable implements JsonSerializable
      */
     protected function _update()
     {
-        $sql = "UPDATE BS_state SET id=:id, description=:description
+        $sql = "UPDATE users SET id=:id, username=:username,role_id=:role_id,password=:password
             WHERE id=:id";
 
         $query = Database::getDB()->prepare($sql);

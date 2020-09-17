@@ -1,14 +1,14 @@
 <?php
 
 /**
- * Class BS_Extras
+ * Class Printer_Config
  * @author Christoph Weiss
  */
-class BS_Extras extends DatabaseTable implements JsonSerializable
+class Printer_Config extends DatabaseTable implements JsonSerializable
 {
     private $id;
     private $description;
-    private $price;
+    private $ip_address;
 
     /**
      * @return mixed
@@ -45,23 +45,22 @@ class BS_Extras extends DatabaseTable implements JsonSerializable
     /**
      * @return mixed
      */
-    public function getPrice()
+    public function getIpAddress()
     {
-        return $this->price;
+        return $this->ip_address;
     }
 
     /**
-     * @param mixed $price
+     * @param mixed $ip_address
      */
-    public function setPrice($price)
+    public function setIpAddress($ip_address)
     {
-        $this->price = $price;
+        $this->ip_address = $ip_address;
     }
 
 
-
     /**
-     * BS_extras constructor.
+     * printerConfig constructor.
      * @param array $data
      */
 
@@ -107,8 +106,8 @@ class BS_Extras extends DatabaseTable implements JsonSerializable
      */
     protected function _insert()
     {
-        $sql = 'INSERT INTO BS_Extras (description,price)'
-            . 'VALUES (:description,:price)';
+        $sql = 'INSERT INTO printerConfig (description,ip_address)'
+            . 'VALUES (:description,:ip_address)';
         $query = Database::getDB()->prepare($sql);
         $query->execute($this->toArray(false));
 
@@ -121,7 +120,7 @@ class BS_Extras extends DatabaseTable implements JsonSerializable
      */
     protected function _update()
     {
-        $sql = "UPDATE BS_Extras SET id=:id, description=:description,price=:price
+        $sql = "UPDATE printerConfig SET id=:id, description=:description,ip_address=:ip_address
             WHERE id=:id";
 
         $query = Database::getDB()->prepare($sql);
