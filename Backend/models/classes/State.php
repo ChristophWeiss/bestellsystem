@@ -1,15 +1,13 @@
 <?php
 
 /**
- * Class BS_Cart
+ * Class State
  * @author Christoph Weiss
  */
-class BS_Cart extends DatabaseTable implements JsonSerializable
+class State extends DatabaseTable implements JsonSerializable
 {
     private $id;
-    private $products_id;
-    private $order_id;
-    private $ammount;
+    private $description;
 
     /**
      * @return mixed
@@ -30,55 +28,22 @@ class BS_Cart extends DatabaseTable implements JsonSerializable
     /**
      * @return mixed
      */
-    public function getProductsId()
+    public function getDescription()
     {
-        return $this->products_id;
+        return $this->description;
     }
 
     /**
-     * @param mixed $products_id
+     * @param mixed $description
      */
-    public function setProductsId($products_id)
+    public function setDescription($description)
     {
-        $this->products_id = $products_id;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getOrderId()
-    {
-        return $this->order_id;
-    }
-
-    /**
-     * @param mixed $order_id
-     */
-    public function setOrderId($order_id)
-    {
-        $this->order_id = $order_id;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getAmmount()
-    {
-        return $this->ammount;
-    }
-
-    /**
-     * @param mixed $ammount
-     */
-    public function setAmmount($ammount)
-    {
-        $this->ammount = $ammount;
+        $this->description = $description;
     }
 
 
-
     /**
-     * Cart constructor.
+     * state constructor.
      * @param array $data
      */
 
@@ -124,8 +89,8 @@ class BS_Cart extends DatabaseTable implements JsonSerializable
      */
     protected function _insert()
     {
-        $sql = 'INSERT INTO BS_cart (products_id,order_id,ammount)'
-            . 'VALUES (:products_id,:order_id,:ammount)';
+        $sql = 'INSERT INTO state (description)'
+            . 'VALUES (:description)';
         $query = Database::getDB()->prepare($sql);
         $query->execute($this->toArray(false));
 
@@ -138,7 +103,7 @@ class BS_Cart extends DatabaseTable implements JsonSerializable
      */
     protected function _update()
     {
-        $sql = "UPDATE BS_cart SET id=:id, products_id=:products_id,order_id=:order_id,ammount=:ammount
+        $sql = "UPDATE state SET id=:id, description=:description
             WHERE id=:id";
 
         $query = Database::getDB()->prepare($sql);

@@ -1,16 +1,15 @@
 <?php
 
 /**
- * Class BS_Order
+ * Class _Cart
  * @author Christoph Weiss
  */
-class BS_Order extends DatabaseTable implements JsonSerializable
+class Cart extends DatabaseTable implements JsonSerializable
 {
     private $id;
-    private $date;
-    private $state_id;
-    private $users_id;
-    private $table_nr;
+    private $products_id;
+    private $order_id;
+    private $ammount;
 
     /**
      * @return mixed
@@ -31,72 +30,55 @@ class BS_Order extends DatabaseTable implements JsonSerializable
     /**
      * @return mixed
      */
-    public function getDate()
+    public function getProductsId()
     {
-        return $this->date;
+        return $this->products_id;
     }
 
     /**
-     * @param mixed $date
+     * @param mixed $products_id
      */
-    public function setDate($date)
+    public function setProductsId($products_id)
     {
-        $this->date = $date;
+        $this->products_id = $products_id;
     }
 
     /**
      * @return mixed
      */
-    public function getStateId()
+    public function getOrderId()
     {
-        return $this->state_id;
+        return $this->order_id;
     }
 
     /**
-     * @param mixed $state_id
+     * @param mixed $order_id
      */
-    public function setStateId($state_id)
+    public function setOrderId($order_id)
     {
-        $this->state_id = $state_id;
+        $this->order_id = $order_id;
     }
 
     /**
      * @return mixed
      */
-    public function getUsersid()
+    public function getAmmount()
     {
-        return $this->users_id;
+        return $this->ammount;
     }
 
     /**
-     * @param mixed $users_id
+     * @param mixed $ammount
      */
-    public function setUsersid($users_id)
+    public function setAmmount($ammount)
     {
-        $this->users_id = $users_id;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getTableNr()
-    {
-        return $this->table_nr;
-    }
-
-    /**
-     * @param mixed $table_nr
-     */
-    public function setTableNr($table_nr)
-    {
-        $this->table_nr = $table_nr;
+        $this->ammount = $ammount;
     }
 
 
 
-
     /**
-     * BS_Order constructor.
+     * Cart constructor.
      * @param array $data
      */
 
@@ -142,8 +124,8 @@ class BS_Order extends DatabaseTable implements JsonSerializable
      */
     protected function _insert()
     {
-        $sql = 'INSERT INTO BS_order (date,state_id,users_id,table_nr)'
-            . 'VALUES (:date,:state_id,:users_id,:table_nr)';
+        $sql = 'INSERT INTO cart (products_id,order_id,ammount)'
+            . 'VALUES (:products_id,:order_id,:ammount)';
         $query = Database::getDB()->prepare($sql);
         $query->execute($this->toArray(false));
 
@@ -156,7 +138,7 @@ class BS_Order extends DatabaseTable implements JsonSerializable
      */
     protected function _update()
     {
-        $sql = "UPDATE BS_order SET id=:id, date=:date,state_id=:state_id,users_id=:users_id,table_nr=:table_nr
+        $sql = "UPDATE cart SET id=:id, products_id=:products_id,order_id=:order_id,ammount=:ammount
             WHERE id=:id";
 
         $query = Database::getDB()->prepare($sql);
